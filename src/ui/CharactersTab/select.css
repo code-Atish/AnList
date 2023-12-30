@@ -1,0 +1,330 @@
+
+/* reset */
+button {
+  all: unset;
+}
+.select_wrapper{
+  display:flex;
+  justify-content: end;
+  width:100%;
+}
+.SelectTrigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  width:150px;
+  border-radius: 4px;
+  padding: 10px 15px;
+  margin-bottom:1.5em;
+  font-size: 0.9em;
+  /* letter-spacing:1px; */
+  gap: 5px;
+  background-color: white;
+  color: var(--mauve-8);
+  /* box-shadow: 0 2px 10px var(--black-a7); */
+  cursor: pointer;
+  transition:200ms;
+}
+.SelectTrigger:hover {
+    color:var(--mauve-10);
+  /* background-color: var(--mauve-3); */
+    box-shadow:rgb(41 71 80 / 20%) 0px 0px 30px -10px;
+}
+.SelectTrigger:focus,.SelectTrigger:focus-visible {
+  /* box-shadow: 0 0 0 2px black; */
+  outline:none;
+}
+.SelectTrigger[data-placeholder] {
+  color: var(--black-a7);
+}
+
+.SelectIcon {
+  color: Var(--violet-11);
+}
+.SelectIcon svg:focus {
+    outline:none;
+}
+.SelectContent {
+  overflow: hidden;
+  background-color: white;
+  border-radius: 6px;
+  box-shadow: 0px 10px 38px -10px rgba(22, 23, 24, 0.35), 0px 10px 20px -15px rgba(22, 23, 24, 0.2);
+}
+
+.SelectViewport {
+  padding: 5px;
+}
+
+.SelectItem {
+  font-size: 0.86em;
+  color: var(--blue-12);
+  opacity:0.8;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  height: 25px;
+  padding: 15px 35px 15px 25px;
+  position: relative;
+  user-select: none;
+}
+.SelectItem[data-disabled] {
+  color: var(--mauve-8);
+  pointer-events: none;
+}
+.SelectItem[data-highlighted] {
+  outline: none;
+  background-color: var(--blue-a3);
+}
+
+.SelectLabel {
+  padding: 0 25px;
+  font-size: 12px;
+  line-height: 25px;
+  color: var(--mauve-11);
+}
+
+.SelectSeparator {
+  height: 1px;
+  background-color: var(--violet-6);
+  margin: 5px;
+}
+
+.SelectItemIndicator {
+  position: absolute;
+  left: 0;
+  width: 25px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.SelectScrollButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 25px;
+  background-color: white;
+  color: var(--violet-11);
+  cursor: default;
+}
+
+@media only screen and (min-width: 1281px) {
+
+  .SelectTrigger{
+    font-size:1rem;
+  }
+  .SelectItem{
+    font-size: 1em;
+    padding:20px 35px;
+  }
+
+}
+@media only screen and (max-width: 1024px) {
+
+    .select_wrapper {
+      justify-content: flex-start;
+    }
+}
+
+/* ---------------------------------------------------DialogCss-------------------- */
+
+
+/* reset */
+/* button,
+fieldset,
+input {
+  all: unset;
+} */
+
+.DialogOverlay {
+  background-color: var(--black-a9);
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  animation: overlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.DialogContent {
+  background-color: var(--main-background);
+  border-radius: 6px;
+  box-shadow: hsl(206 22% 7% / 35%) 0px 10px 38px -10px, hsl(206 22% 7% / 20%) 0px 10px 20px -15px;
+  position: fixed;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90vw;
+  max-width: 450px;
+  max-height: 85vh;
+  padding: 25px;
+  z-index: 10;
+  animation: contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.DialogContent:focus {
+  outline: none;
+}
+
+.DialogTitle {
+  margin: 0 0  20px;
+  font-weight: 500;
+  color: var(--mauve-12);
+  font-size: 17px;
+}
+
+.DialogDescription {
+  margin: 10px 0 20px;
+  color: var(--mauve-11);
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.Button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  padding: 0 15px;
+  font-size: 15px;
+  line-height: 1;
+  font-weight: 500;
+  height: 35px;
+}
+.Button.violet {
+  background-color: white;
+  color: var(--violet-11);
+  box-shadow: 0 2px 10px var(--black-a7);
+}
+.Button.violet:hover {
+  background-color: var(--mauve-3);
+}
+.Button.violet:focus {
+  box-shadow: 0 0 0 2px black;
+}
+.Button.green {
+  background-color: var(--green-4);
+  color: var(--green-11);
+}
+.Button.green:hover {
+  background-color: var(--green-5);
+}
+.Button.green:focus {
+  box-shadow: 0 0 0 2px var(--green-7);
+}
+
+.IconButton {
+  font-family: inherit;
+  border-radius: 100%;
+  height: 25px;
+  width: 25px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--violet-11);
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+.IconButton:hover {
+  background-color: var(--violet-4);
+}
+.IconButton:focus {
+  box-shadow: 0 0 0 2px var(--violet-7);
+}
+
+.Fieldset {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.Label {
+  font-size: 15px;
+  color: var(--violet-11);
+  width: 90px;
+  text-align: right;
+}
+
+.Input {
+  width: 100%;
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  padding: 0 10px;
+  font-size: 15px;
+  line-height: 1;
+  color: var(--violet-11);
+  box-shadow: 0 0 0 1px var(--violet-7);
+  height: 35px;
+}
+.Input:focus {
+  box-shadow: 0 0 0 2px var(--violet-8);
+}
+
+@keyframes overlayShow {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes contentShow {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -48%) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+.extra_inputs{
+  color: var(--mauve-9);
+  margin-left:auto;
+  background: white;
+  width:max-content;
+  display:grid;
+  place-items: center;
+  padding: 0px 13px;
+  font-size:1.2rem;
+  border-radius: 5px;
+  transition:200ms;
+  cursor:pointer;
+}
+.extra_inputs:hover{
+  color:var(--text-cyan-500);
+}
+.dialog_input{
+  display:grid;
+  grid-template-columns: repeat(2,1fr);
+  gap:2em 1.5em;
+}
+
+
+/* .visible_input_section > .Format-input,
+.visible_input_section > .SeasonYear-input,
+.visible_input_section  > .Genre-input{
+  display:initial
+} */
+.dialog_input > .Format-input,
+.dialog_input > .Season-input,
+.dialog_input > .Year-input,
+.dialog_input > .Genre-input{
+  display:none
+} 
+
+@media only screen and (max-width: 1100px) {
+  .dialog_input > .Genre-input{
+    display:unset;
+  }
+}
+@media only screen and (max-width: 800px) {
+  .dialog_input > .Format-input,
+  .dialog_input > .Season-input,
+  .dialog_input > .Year-input{
+    display:unset;
+  }
+}
