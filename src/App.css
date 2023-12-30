@@ -100,11 +100,12 @@ input > div {
   color:var(--angle-down-hover);
 }
 
-.input > .ip-placeholder{
+[class$='-input'] .ip-placeholder{
   display: inline-block;
   width:100%;
   font-size:0.89rem;
   letter-spacing: 1px;
+  pointer-events: none;
 }
 
 .label-wrapper{
@@ -201,7 +202,9 @@ input > div {
 .angle-down:hover{
   color:rgb(138 159 166);
 }
-
+.angle-down i {
+  pointer-events: none;
+}
 .capitalize{
   text-transform: lowercase;
 }

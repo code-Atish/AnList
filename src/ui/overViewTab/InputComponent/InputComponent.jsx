@@ -18,13 +18,14 @@ function NamedInput({name,handleSearch}){
     const [isGenreVisible,setGenreVisible] =useState(false);
     let genreList=['Action', 'Adventure', 'Comedy', 'Drama', 'Ecchi', 'Fantasy', 'Horror', 'Mahou Shoujo', 'Mecha', 'Music', 'Mystery', 'Psychological', 'Romance', 'Sci-Fi', 'Slice of Life', 'Sports', 'Supernatural', 'Thriller'];
     const [searchGenre,setSearchGenre]=useState('');
-    const GenreElementRef=useRef();
+    const domElementRef=useRef();
     const handleGenreVisible = ()=> {
+        console.log("Genre visibility changed")
         setGenreVisible(!isGenreVisible);
         setSearchGenre('');
     }
     const handleGenreClick = (e) =>{
-        const newGenre=e.target.value
+        const newGenre=e.target.dataset.value
           if(genre.includes(newGenre)) {
             let newArr =genre.filter((item)=> item!=newGenre);
             setGenre(newArr);
@@ -34,8 +35,8 @@ function NamedInput({name,handleSearch}){
           // console.log(newFormat)
       }
       const handleOutsideGenreClick = (event) => {
-        if (GenreElementRef.current && GenreElementRef.current.contains(event.target)) {
-          setGenreVisible(prev => !prev);
+        if (domElementRef.current && !domElementRef.current.contains(event.target)) {
+          setGenreVisible(false);
           
         }
       };
@@ -47,7 +48,7 @@ function NamedInput({name,handleSearch}){
         };
       }, []);
     return (
-        <div className={`${className}-input`} onClick={handleGenreVisible} ref={GenreElementRef}>
+        <div className={`${className}-input`} onClick={handleGenreVisible} ref={domElementRef}>
           {(!Boolean(genre.length)&&!isGenreVisible) &&<span className='ip-placeholder' >Genre</span>}
           {(Boolean(genre.length) && !isGenreVisible) &&
               <span className='active-filters' >{genre[0]}</span>
@@ -55,14 +56,11 @@ function NamedInput({name,handleSearch}){
           { (genre.length>1 && !isGenreVisible) &&
               <span className='active-filters' >+{genre.length-1}</span>
           }
-          { !isGenreVisible && <div className="angle-down" >
-                <i className="fa-solid fa-angle-down" ></i>
-            </div>
-          }
+          <div className="angle-down" onClick={handleGenreVisible}>
+                {!isGenreVisible && <i className="fa-solid fa-angle-down" ></i>}
+                {isGenreVisible && <i className="fa-solid fa-xmark"></i>}
+          </div>
           { isGenreVisible && <>
-                <div className="angle-down">
-                  <i className="fa-solid fa-xmark"></i>
-                </div>
                 <input type="text" name="" id="" autoFocus onChange={(e)=>setSearchGenre(e.target.value)}/>
             </>
           }
@@ -75,8 +73,8 @@ function NamedInput({name,handleSearch}){
                   return genre.toLowerCase().includes(searchGenre.toLowerCase())
                 }).map( (genre,index) =>(
                   <div key={index} className='label-wrapper'>
-                    <input type="checkbox" style={{display:'none'}} name="genre" id={genre} value={genre} onClick={handleGenreClick}/>
-                    <label className="label" htmlFor={genre} data-value={genre}>{genre}</label>
+                    <input type="checkbox" style={{display:'none'}} name="genre" id={genre} value={genre} />
+                    <label className="label" htmlFor={genre} data-value={genre} onClick={handleGenreClick}>{genre}</label>
                   </div>
                 ) )
               }
@@ -124,13 +122,12 @@ function NamedInput({name,handleSearch}){
                 <div className={`${className}-input`} onClick={handleFormatVisible} ref={domElementRef}>
                     {(!Boolean(format.length) && !isFormatVisible) && <span className='ip-placeholder' >Format</span>}
                       {(Boolean(format.length) && !isFormatVisible) &&
-                      <span className='active-filters' onClick={handleFormatVisible}>{format[0]}</span>
+                      <span className='active-filters'>{format[0]}</span>
                       }
                       { (format.length>1 && !isFormatVisible) &&
                         <span className='active-filters'>+{format.length-1}</span>
                       }
-                      {<div className="angle-down"
-                            style={{pointerEvents:'none'}}>
+                      {<div className="angle-down">
                           <i className="fa-solid fa-angle-down" ></i>
                       </div>
                       }
@@ -236,7 +233,7 @@ function NamedInput({name,handleSearch}){
                                 color:'var(--green-8)',
                                 fontSize:'0.9em'
                               }} 
-                              onClick={()=> setInputVisible(!isInputVisible)}
+                              
                             >
                                 {TitleCase(Input.toString().replace(/_/g, ' '))}
                             </span>
@@ -246,7 +243,7 @@ function NamedInput({name,handleSearch}){
                                 style={{
                                   pointerEvents:'none',
                                 }}
-                                className="angle-down" onClick={()=> setInputVisible(!isInputVisible)}>
+                                className="angle-down" >
                               <i className="fa-solid fa-angle-down" ></i>
                             </div>
                         }
