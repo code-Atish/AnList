@@ -1,6 +1,8 @@
 // src/store.js
 import { configureStore } from '@reduxjs/toolkit';
-import pageReducer from './counter-slice'; 
+import pageReducer from './page-slice'; 
+import singleInputReducer from './singleInput-slice'; 
+import manyInputReducer from './manyInput-slice'; 
 // Import your reducers here
 // Example:
 // import counterReducer from './features/counter/counterSlice';
@@ -10,6 +12,8 @@ const store = configureStore({
     // Add your reducers here
     // Example:
     page: pageReducer,
+    singleInput:singleInputReducer,
+    manyInput:manyInputReducer,
   },
 });
 

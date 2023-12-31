@@ -1,6 +1,10 @@
 import React from "react"
 import { useRef, useState } from "react"
 import { TitleCase } from "../../../converTime"
+import { useDispatch, useSelector } from "react-redux";
+import DisplayTrending from "../../Trending";
+import { modifySeason, modifySeasonVisibility, modifySource, modifySourceVisibility, modifyStatus, modifyStatusVisibility, modifyYear, modifyYearVisibility } from "../../../store/singleInput-slice";
+import { handleGenreSelect, modifyGenreVisibility, modifySearchGenre } from "../../../store/manyInput-slice";
 
 function NamedInput({name,handleSearch}){
     return (
@@ -38,27 +42,38 @@ function ManyInputComp({props}){
             } </> ) 
         
   }
-  function GenreInput({genreProps,className,genre,setGenre}) {
+  function GenreInput({genreProps,className}) {
+    const dispatch = useDispatch();
     // const [genre,isGenreVisible,handleGenreVisible,genreList,searchGenre,handleGenreClick,setSearchGenre]=genreProps
-    const [isGenreVisible,setGenreVisible] =useState(false);
+    let genre = useSelector(state => state.manyInput.genre);
+    const isGenreVisible = useSelector(state => state.manyInput.isGenreVisible);
+    const setGenreVisible = (value) =>{
+        dispatch(modifyGenreVisibility(value));
+    } 
     let genreList=['Action', 'Adventure', 'Comedy', 'Drama', 'Ecchi', 'Fantasy', 'Horror', 'Mahou Shoujo', 'Mecha', 'Music', 'Mystery', 'Psychological', 'Romance', 'Sci-Fi', 'Slice of Life', 'Sports', 'Supernatural', 'Thriller'];
-    const [searchGenre,setSearchGenre]=useState('');
+    const searchGenre = useSelector(state => state.manyInput.searchGenre);
+    const setSearchGenre = (value) =>{
+        dispatch(modifySearchGenre(value))
+    }
     const domElementRef=useRef();
     const handleGenreVisible = ()=> {
-        setGenreVisible(prev => !prev);
+        setGenreVisible(!isGenreVisible);
         setSearchGenre('');
     }
     const handleGenreClick = (e) =>{
         const newGenre=e.target.dataset.value
-          if(genre.includes(newGenre)) {
-            let newArr =genre.filter((item)=> item!=newGenre);
-            setGenre(newArr);
-          }else
-            setGenre(prev=> [...prev,newGenre]);
-          setGenreVisible(prev=>!prev);
-          // console.log(newFormat)
-      }
-      const handleOutsideGenreClick = (event) => {
+        if (genre.includes(newGenre)) {
+            // console.log(newGenre)
+            let newArr = genre.filter((item) => item != newGenre);
+            dispatch(handleGenreSelect(newArr))
+        } else
+            dispatch(handleGenreSelect([...genre, newGenre]))
+
+        // state.isGenreVisible = !state.isGenreVisible;
+        setGenreVisible(!isGenreVisible);
+    }
+
+    const handleOutsideGenreClick = (event) => {
         if (domElementRef.current && !domElementRef.current.contains(event.target)) {
           setGenreVisible(false);
           
@@ -360,7 +375,7 @@ function ManyInputComp({props}){
                               <div key={index} className='label-wrapper'>
                                 {/* <input type="radio" style={{display:'none'}} name="year" id={year} value={year} onClick={handleYearClick}/>
                                 <label htmlFor={year} >{year}</label> */}
-                                <label className="label" onClick={()=>{ setInput(prev=> prev==item ? undefined : item)}}>
+                                <label className="label" onClick={()=>{ setInput(item)}}>
                                     {TitleCase(item.toString().replace(/_/g, ' '))}
                                 </label>
                               </div>
@@ -371,10 +386,18 @@ function ManyInputComp({props}){
     )  
     }
 
-  function YearInput({setYear,year}){
+  function YearInput(){
+    const dispatch=useDispatch();
+    const year=useSelector(state => state.singleInput.year);
+    const setYear =(year)=>{
+      dispatch(modifyYear(year))
+    }
+    const isYearVisible=useSelector(state => state.singleInput.isYearVisible);
+    const setYearVisible = (value) =>{
+      dispatch(modifyYearVisibility(value))
+    }
     const currentYear=new Date().getFullYear();
     const yearList=Array.from({ length: currentYear - 1940 + 1 }, (_, index) => currentYear - index);
-    const [isYearVisible,setYearVisible] =useState(false);
     const props=[year,setYearVisible,isYearVisible,yearList,setYear]
     return <SingleInputComp  
                 props={props}
@@ -382,9 +405,17 @@ function ManyInputComp({props}){
               />
   }
 
-  function SeasonInput({setSeason,season}){
+  function SeasonInput(){
     const seasonList=['WINTER','SPRING','SUMMER','FALL']
-    const [isSeasonVisible,setSeasonVisible] =useState(false);
+    const dispatch=useDispatch();
+    const season=useSelector(state => state.singleInput.season);
+    const setSeason =(season)=>{
+      dispatch(modifySeason(season))
+    }
+    const isSeasonVisible=useSelector(state => state.singleInput.isSeasonVisible);
+    const setSeasonVisible = (value) =>{
+      dispatch(modifySeasonVisibility(value))
+    }
     const props=[season,setSeasonVisible,isSeasonVisible,seasonList,setSeason];
     
     return <SingleInputComp 
@@ -393,9 +424,17 @@ function ManyInputComp({props}){
             />
   }
 
-  function SourceInput({setSource,source}){
+  function SourceInput(){
     const sourceList=["ORIGINAL", "MANGA", "LIGHT_NOVEL", "VISUAL_NOVEL", "VIDEO_GAME", "NOVEL", "DOUJINSHI", "ANIME", "WEB_NOVEL", "LIVE_ACTION", "GAME", "COMIC", "MULTIMEDIA_PROJECT", "PICTURE_BOOK","OTHER"];
-    const [isSourceVisible,setSourceVisible] =useState(false);
+    const dispatch=useDispatch();
+    const source=useSelector(state => state.singleInput.source);
+    const setSource =(source)=>{
+      dispatch(modifySource(source))
+    }
+    const isSourceVisible=useSelector(state => state.singleInput.isSourceVisible);
+    const setSourceVisible = (value) =>{
+      dispatch(modifySourceVisibility(value))
+    }
     const props=[source,setSourceVisible,isSourceVisible,sourceList,setSource];
     
     return <SingleInputComp 
@@ -404,11 +443,18 @@ function ManyInputComp({props}){
             />
   }
 
-  function StatusInput({setStatus,status}){
+  function StatusInput(){
     const statusList=[ 'FINISHED','RELEASING', 'NOT_YET_RELEASED',  'CANCELLED']
-    const [isStatusVisible,setStatusVisible] =useState(false);
+    const dispatch=useDispatch();
+    const status=useSelector(state => state.singleInput.status);
+    const setStatus =(status)=>{
+      dispatch(modifyStatus(status))
+    }
+    const isStatusVisible=useSelector(state => state.singleInput.isStatusVisible);
+    const setStatusVisible = (value) =>{
+      dispatch(modifyStatusVisibility(value))
+    }
     const props=[status,setStatusVisible,isStatusVisible,statusList,setStatus];
-    
     return <SingleInputComp 
               className={"Status"}
               props={props}

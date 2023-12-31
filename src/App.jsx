@@ -13,38 +13,32 @@ import DialogDemo from './ui/DialogDemo';
 import { FormatInput, GenreInput, NamedInput, SeasonInput, StatusInput, YearInput, YearSeasonInput } from './ui/overViewTab/InputComponent/InputComponent';
 import { useNavigate }  from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
-import {pageActions} from './store/counter-slice';
+import {pageActions} from './store/page-slice';
+import { modifySeason, modifySource, modifyStatus, modifyYear } from './store/singleInput-slice';
 
 
 
 
 
 function App() {
-  const pageNumber=useSelector(state => state.page.page);
   const dispatch= useDispatch();
-  const currentYear=new Date().getFullYear();
-  const yearList=Array.from({ length: currentYear - 1940 + 1 }, (_, index) => currentYear - index);
-  const [year,setYear]=useState(undefined);
-  const seasonList=['WINTER','SPRING','SUMMER','FALL']
-  const [season,setSeason]=useState(undefined);
-  const [status,setStatus]=useState(undefined);
-  const [source,setSource]=useState(undefined);
-  let sourceList=["ORIGINAL", "MANGA", "LIGHT_NOVEL", "VISUAL_NOVEL", "VIDEO_GAME", "NOVEL", "DOUJINSHI", "ANIME", "WEB_NOVEL", "LIVE_ACTION", "GAME", "COMIC", "MULTIMEDIA_PROJECT", "PICTURE_BOOK","OTHER"];
-  let statusList=[ 'FINISHED','RELEASING', 'NOT_YET_RELEASED',  'CANCELLED']
-  let genreList=['Action', 'Adventure', 'Comedy', 'Drama', 'Ecchi', 'Fantasy', 'Horror', 'Mahou Shoujo', 'Mecha', 'Music', 'Mystery', 'Psychological', 'Romance', 'Sci-Fi', 'Slice of Life', 'Sports', 'Supernatural', 'Thriller'];
-  const [searchGenre,setSearchGenre]=useState('');
+  const pageNumber=useSelector(state => state.page.page);
+  const year=useSelector(state => state.singleInput.year);
+  const season=useSelector(state => state.singleInput.season);
+  const source=useSelector(state => state.singleInput.source);
+  const status=useSelector(state => state.singleInput.status);
   const [genre,setGenre]=useState([])
   const [count, setCount] = useState(0)
   
+  let genreList=['Action', 'Adventure', 'Comedy', 'Drama', 'Ecchi', 'Fantasy', 'Horror', 'Mahou Shoujo', 'Mecha', 'Music', 'Mystery', 'Psychological', 'Romance', 'Sci-Fi', 'Slice of Life', 'Sports', 'Supernatural', 'Thriller'];
+  const currentYear=new Date().getFullYear();
+  const yearList=Array.from({ length: currentYear - 1940 + 1 }, (_, index) => currentYear - index);
+  const seasonList=['WINTER','SPRING','SUMMER','FALL']
+  const sourceList=["ORIGINAL", "MANGA", "LIGHT_NOVEL", "VISUAL_NOVEL", "VIDEO_GAME", "NOVEL", "DOUJINSHI", "ANIME", "WEB_NOVEL", "LIVE_ACTION", "GAME", "COMIC", "MULTIMEDIA_PROJECT", "PICTURE_BOOK","OTHER"];
+  const statusList=[ 'FINISHED','RELEASING', 'NOT_YET_RELEASED',  'CANCELLED']
   // const childNum=getComputedStyle(document.querySelector('.trending-list')).getPropertyValue('--childNum');
   const [name,setName] = useState('')
   const [isVisible, setIsVisible] = useState(false);
-  // const [isFormatVisible,setFormatVisible] =useState(false);
-  const [isYearVisible,setYearVisible] =useState(false);
-  const [isSeasonVisible,setSeasonVisible] =useState(false);
-  const [isGenreVisible,setGenreVisible] =useState(false);
-  const [isStatusVisible,setStatusVisible] =useState(false);
-  const [isSourceVisible,setSourceVisible] =useState(false);
   const domElementRef = useRef();
   console.log(domElementRef)
   const [sortValue,setSortValue]= useState(undefined);
@@ -64,46 +58,10 @@ function App() {
     }
   },[name,format,year,season,genre,status,source])
 
-  // console.log(year)
-  // console.log(season)
-  let formatList=[{value:'TV',name:'TV Show'},{value:'TV_SHORT',name:'TV Short'},{value:'MOVIE',name:'Movie'},{value:'OVA',name:'OVA'},{value:'ONA',name:'ONA'},{value:'SPECIAL',name:'Special'},{value:'MUSIC',name:'Music'}]
-  const [searchFormat,setSearchFormat]=useState('');
   // console.log(searchFormat)
   // console.log(searchGenre)
   
   
-  const handleFormatSelect = (e) =>{
-    const newFormat=e.target.dataset.value
-      if(format.includes(newFormat)) {
-        let newArr =format.filter((item)=> item!=newFormat);
-        setFormat(newArr);
-      }else
-        setFormat(prev=> [...prev,newFormat]);
-      setFormatVisible(!isFormatVisible);
-      // console.log(newFormat)
-  }
-  const handleFormatVisible = ()=> {
-      setFormatVisible(!isFormatVisible);
-      setSearchFormat('');
-  }
-  const handleGenreVisible = ()=> {
-    setGenreVisible(!isGenreVisible);
-    setSearchGenre('');
-}
-  const handleYearClick= (e)=> {
-    setYear(e.target.value);
-    setYearVisible(!isYearVisible)
-}
-  const handleGenreClick = (e) =>{
-    const newGenre=e.target.value
-      if(genre.includes(newGenre)) {
-        let newArr =genre.filter((item)=> item!=newGenre);
-        setGenre(newArr);
-      }else
-        setGenre(prev=> [...prev,newGenre]);
-      setGenreVisible(!isGenreVisible);
-      // console.log(newFormat)
-  }
   // console.log(genre)
   // console.log(format)
   const removeFilter = (e,toFilter,method)=>{
@@ -125,17 +83,7 @@ function App() {
     }
   };
   const navigate=useNavigate();
-  const yearProps=[year,setYearVisible,isYearVisible,yearList,setYear,"Year"]
-  const seasonProps=[season,setSeasonVisible,isSeasonVisible,seasonList,setSeason,"Season"];
-  const statusProps=[status,setStatusVisible,isStatusVisible,statusList,setStatus,"Status"];
-  const sourceProps=[source,setSourceVisible,isSourceVisible,sourceList,setSource,"Source"];
-  const formatProps=[format,formatList,searchFormat,handleFormatSelect,setSearchFormat]
-  const genreProps=[genre,isGenreVisible,handleGenreVisible,genreList,searchGenre,handleGenreClick,setSearchGenre]
-  // useEffect(()=>{
-  //   fetch("https://api.consumet.org/anime/crunchyroll/info/GRVN8MNQY")
-  // .then((response) => response.json())
-  // .then((animelist) => console.log(animelist));
-  // },[])
+
   React.useEffect(() => {
     window.addEventListener('click', handleOutsideClick);
 
@@ -154,81 +102,23 @@ function App() {
                 />
 
                 <FormatInput
-                    // format={format}
-                    // isFormatVisible={isFormatVisible}
-                    // handleFormatVisible={handleFormatVisible}
-                    // handleFormatSelect={handleFormatSelect}
-                    // formatList={formatList}
-                    // searchFormat={searchFormat}
-                    // setSearchFormat={setSearchFormat}
-                    // formatProps={formatProps}
                     format={format}
                     setFormat={setFormat}
                     className={'Format'}
                 />
                   {/* <input type="submit" value="Submit" /> */}
                 
-                <YearInput
-                  // year={year}
-                  // setYearVisible={setYearVisible}
-                  // isYearVisible={isYearVisible}
-                  // yearList={yearList}
-                  year={year}
-                  setYear={setYear}
-                />
-                {/* <YearSeasonInput
-                    // Input={year}
-                    // setInputVisible={setYearVisible}
-                    // isInputVisible={isYearVisible}
-                    // inputList={yearList}
-                    // setInput={setYear}
-                    // placeholder={"Year"}     PREVIOUS ONES
-                    props={yearProps}
-                    inDialog={false}
-                    className={'Year'}
-
-                /> */}
-                {/* <YearSeasonInput
-                    // Input={season}
-                    // setInputVisible={setSeasonVisible}
-                    // isInputVisible={isSeasonVisible}
-                    // inputList={seasonList}
-                    // setInput={setSeason}
-                    // placeholder={"Season"}   PREVIOUS ONES
-                    props={seasonProps}
-                    className={'Season'}
-                /> */}
-
-                <SeasonInput
-                  // seasonList={seasonList}
-                  // setSeasonVisible={setSeasonVisible}
-                  // isSeasonVisible={isSeasonVisible}
-                  season={season}
-                  setSeason={setSeason}
-                />
+                <YearInput/>
+               <SeasonInput />
 
                 <GenreInput
-                    // handleGenreVisible={handleGenreVisible}
-                    // handleGenreClick={handleGenreClick}
-                    // genre={genre}
-                    // genreList={genreList}
-                    // isGenreVisible={isGenreVisible}
-                    // searchGenre={searchGenre}
-                    // setSearchGenre={setSearchGenre}
-                    // genreProps={genreProps}
                     genre={genre}
                     setGenre={setGenre}
                     className={'Genre'}
-                    
                 />
 
                 <DialogDemo 
-                    yearProps={yearProps} 
-                    seasonProps={seasonProps}
-                    statusProps={statusProps}
-                    formatProps={formatProps}
-                    genreProps={genreProps}
-                    sourceProps={sourceProps}
+                    
                     navigate={navigate}
                 />
               </section>
@@ -243,13 +133,13 @@ function App() {
                         title="Trending" 
                         functions={[setSortValue,setSortText]}
                     />
-
+{/* 
                     <PopularAnime
                         pageNumber={pageNumber}
                         nextSeason={false}
                         sortCriteria="POPULARITY_DESC"
                         title="Popular this season"
-                        functions={[setYear, setSeason]}
+                        // functions={[setYear, setSeason]}
                     />
 
                     <PopularAnime
@@ -257,8 +147,8 @@ function App() {
                         nextSeason={true}
                         sortCriteria="POPULARITY_DESC"
                         title="Upcoming next season"
-                        functions={[setYear, setSeason]}
-                    />
+                        // functions={[setYear, setSeason]}
+                    /> */}
 
                     <DisplayTrending
                         pageNumber={pageNumber}
@@ -286,27 +176,27 @@ function App() {
                             return <AppliedFilters 
                                       ele={ele}
                                       key={index}
-                                      removeFunc={()=>setYear(undefined)}
+                                      removeFunc={()=>dispatch(modifyYear(undefined))}
                                   />
                             }else if(seasonList.includes(ele)){
                             return <AppliedFilters 
                                         ele={ele}
                                         key={index}
-                                        removeFunc={()=>setSeason(undefined)}
+                                        removeFunc={()=>dispatch(modifySeason(undefined))}
                                     />
                             }
                             else if(statusList.includes(ele)){
                               return <AppliedFilters 
                                         ele={ele}
                                         key={index}
-                                        removeFunc={()=>setStatus(undefined)}
+                                        removeFunc={()=>dispatch(modifyStatus(undefined))}
                                     />
                               }
                               else if(sourceList.includes(ele)){
                                 return <AppliedFilters 
                                         ele={ele}
                                         key={index}
-                                        removeFunc={()=>setSource(undefined)}
+                                        removeFunc={()=>dispatch(modifySource(undefined))}
                                     />
                                 }
                             else{
