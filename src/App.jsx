@@ -6,19 +6,22 @@ import Skeleton from './Skeleton';
 import PopularAnime from './PopularAnime';
 import DisplaySearch from './searchAnime';
 import DisplayTrending from './ui/Trending';
-import { secondsToDhms,truncateSentence } from './converTime';
+import { TitleCase, secondsToDhms,truncateSentence } from './converTime';
 import './App.css'
 import { Link, Outlet } from 'react-router-dom';
 import DialogDemo from './ui/DialogDemo';
-import { FormatInput, GenreInput, NamedInput, YearSeasonInput } from './ui/overViewTab/InputComponent/InputComponent';
+import { FormatInput, GenreInput, NamedInput, SeasonInput, StatusInput, YearInput, YearSeasonInput } from './ui/overViewTab/InputComponent/InputComponent';
 import { useNavigate }  from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux';
+import {pageActions} from './store/counter-slice';
 
 
 
 
 
 function App() {
-
+  const pageNumber=useSelector(state => state.page.page);
+  const dispatch= useDispatch();
   const currentYear=new Date().getFullYear();
   const yearList=Array.from({ length: currentYear - 1940 + 1 }, (_, index) => currentYear - index);
   const [year,setYear]=useState(undefined);
@@ -34,7 +37,6 @@ function App() {
   const [count, setCount] = useState(0)
   
   // const childNum=getComputedStyle(document.querySelector('.trending-list')).getPropertyValue('--childNum');
-  const [pageNumber,setPageNumber] = useState(1);
   const [name,setName] = useState('')
   const [isVisible, setIsVisible] = useState(false);
   // const [isFormatVisible,setFormatVisible] =useState(false);
@@ -105,7 +107,7 @@ function App() {
   // console.log(genre)
   // console.log(format)
   const removeFilter = (e,toFilter,method)=>{
-      method(toFilter.filter((item)=> item!==e.target.dataset.value))
+      method(prevArray => prevArray.filter((item)=> item!==e.target.dataset.value))
   }
   const handleSearch= (e) => {
         setName(e.target.value)
@@ -165,43 +167,45 @@ function App() {
                     className={'Format'}
                 />
                   {/* <input type="submit" value="Submit" /> */}
-                {/* <YearInput 
+                
+                <YearInput
+                  // year={year}
+                  // setYearVisible={setYearVisible}
+                  // isYearVisible={isYearVisible}
+                  // yearList={yearList}
                   year={year}
-                  setYearVisible={setYearVisible}
-                  isYearVisible={isYearVisible}
-                  yearList={yearList}
                   setYear={setYear}
-                /> */}
-                <YearSeasonInput
+                />
+                {/* <YearSeasonInput
                     // Input={year}
                     // setInputVisible={setYearVisible}
                     // isInputVisible={isYearVisible}
                     // inputList={yearList}
                     // setInput={setYear}
-                    // placeholder={"Year"}
+                    // placeholder={"Year"}     PREVIOUS ONES
                     props={yearProps}
                     inDialog={false}
                     className={'Year'}
 
-                />
-                <YearSeasonInput
+                /> */}
+                {/* <YearSeasonInput
                     // Input={season}
                     // setInputVisible={setSeasonVisible}
                     // isInputVisible={isSeasonVisible}
                     // inputList={seasonList}
                     // setInput={setSeason}
-                    // placeholder={"Season"}
+                    // placeholder={"Season"}   PREVIOUS ONES
                     props={seasonProps}
                     className={'Season'}
-                />
-
-                {/* <SeasonInput 
-                  season={season}
-                  seasonList={seasonList}
-                  setSeasonVisible={setSeasonVisible}
-                  isSeasonVisible={isSeasonVisible}
-                  setSeason={setSeason}
                 /> */}
+
+                <SeasonInput
+                  // seasonList={seasonList}
+                  // setSeasonVisible={setSeasonVisible}
+                  // isSeasonVisible={isSeasonVisible}
+                  season={season}
+                  setSeason={setSeason}
+                />
 
                 <GenreInput
                     // handleGenreVisible={handleGenreVisible}
@@ -316,8 +320,8 @@ function App() {
                     }
                     {
                       (Boolean(format.length)) && format.map((ele,index) =>(
-                            <div className='applied-filters' key={index} data-value={ele} onClick={(e)=>removeFilter(e,format,setFormat)}>
-                              <label htmlFor={ele} >{ele}</label>
+                            <div className='applied-filters' key={index} >
+                              <label htmlFor={ele} data-value={ele} onClick={(e)=>removeFilter(e,format,setFormat)}>{TitleCase(ele)}</label>
                               <div className="remove-filters" >
                                 <i className="fa-solid fa-xmark" ></i>
                               </div>
@@ -328,10 +332,9 @@ function App() {
                       (Boolean(genre.length)) && genre.map((ele,index) =>(
                             <div className='applied-filters'
                                   key={index}
-                                  data-value={ele}
-                                  onClick={(e)=>removeFilter(e,genre,setGenre)} 
                               >
-                                    <span  >{ele}</span>
+                                    <label htmlFor={ele} data-value={ele}
+                                  onClick={(e)=>removeFilter(e,genre,setGenre)}  >{ele}</label>
                                     <div className="remove-filters" >
                                       <i className="fa-solid fa-xmark" ></i>
                                     </div>
@@ -387,8 +390,8 @@ function App() {
         }
         
         <div className="btns">
-            <button onClick={ (e) => { setPageNumber(pageNumber-1)} }>Prev</button>
-            <button onClick={ (e) => { navigate('/details/21')} }>Next</button>
+            <button onClick={() => dispatch(pageActions.decrement())}>Prev</button>
+            <button onClick={() => dispatch(pageActions.increment())}>Next</button>
           </div>
         <p className="read-the-docs" style={{display:"block",textAlign:"center"}}>
           {/* Click on the Vite and React logos to learn more */}
@@ -404,7 +407,7 @@ function AppliedFilters({ele,removeFunc}){
               // key={key} 
               onClick={removeFunc}
             >
-                <span >{ele}</span>
+                <span >{TitleCase(ele.toString())}</span>
                 <div className="remove-filters" >
                   <i className="fa-solid fa-xmark" ></i>
                 </div>

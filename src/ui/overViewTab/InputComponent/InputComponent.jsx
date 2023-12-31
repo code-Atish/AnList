@@ -13,6 +13,31 @@ function NamedInput({name,handleSearch}){
           </div>
     )
   }
+
+function ManyInputComp({props}){
+    const [Input,isInputVisible,setSearchInput,className]=props;
+    return (<>
+      {(!(Input.length) && !isInputVisible) && <span className='ip-placeholder' >{className}</span>}
+            {(Input.length>0 && !isInputVisible) &&
+            <span className='active-filters'>{TitleCase(Input[0])}</span>
+            }
+            { (Input.length>1 && !isInputVisible) &&
+              <span className='active-filters'>+{Input.length-1}</span>
+            }
+            {<div className="angle-down">
+                <i className="fa-solid fa-angle-down" ></i>
+            </div>
+            }
+            { isInputVisible &&<> 
+              {/* <div className="angle-down" onClick={handleFormatVisible}>
+                <i className="fa-solid fa-xmark"></i>
+              </div> */}
+                <input type="text" name="" id="" autoFocus 
+                  onChange={ (e)=> setSearchInput(e.target.value) }/>
+              </>
+            } </> ) 
+        
+  }
   function GenreInput({genreProps,className,genre,setGenre}) {
     // const [genre,isGenreVisible,handleGenreVisible,genreList,searchGenre,handleGenreClick,setSearchGenre]=genreProps
     const [isGenreVisible,setGenreVisible] =useState(false);
@@ -20,8 +45,7 @@ function NamedInput({name,handleSearch}){
     const [searchGenre,setSearchGenre]=useState('');
     const domElementRef=useRef();
     const handleGenreVisible = ()=> {
-        console.log("Genre visibility changed")
-        setGenreVisible(!isGenreVisible);
+        setGenreVisible(prev => !prev);
         setSearchGenre('');
     }
     const handleGenreClick = (e) =>{
@@ -49,36 +73,26 @@ function NamedInput({name,handleSearch}){
       }, []);
     return (
         <div className={`${className}-input`} onClick={handleGenreVisible} ref={domElementRef}>
-          {(!Boolean(genre.length)&&!isGenreVisible) &&<span className='ip-placeholder' >Genre</span>}
-          {(Boolean(genre.length) && !isGenreVisible) &&
-              <span className='active-filters' >{genre[0]}</span>
+            <ManyInputComp 
+                  props={[genre,isGenreVisible,setSearchGenre,className]}
+              />
+            { <div className="options tooltip"
+                  style={{
+                    display: isGenreVisible ? 'block':'none',
+                  }}>
+                {
+                  genreList.filter( genre =>{
+                    return genre.toLowerCase().includes(searchGenre.toLowerCase())
+                  }).map( (item,index) =>(
+                    <div key={index} className='label-wrapper'>
+                      <input type="checkbox" style={{appearance:'none'}} name="item" id={item} value={item} 
+                          checked={genre.includes(item)? true : false} readOnly/>
+                      <label className="label" htmlFor={item} data-value={item} onClick={handleGenreClick}>{item}</label>
+                    </div>
+                  ) )
+                }
+            </div>
           }
-          { (genre.length>1 && !isGenreVisible) &&
-              <span className='active-filters' >+{genre.length-1}</span>
-          }
-          <div className="angle-down" onClick={handleGenreVisible}>
-                {!isGenreVisible && <i className="fa-solid fa-angle-down" ></i>}
-                {isGenreVisible && <i className="fa-solid fa-xmark"></i>}
-          </div>
-          { isGenreVisible && <>
-                <input type="text" name="" id="" autoFocus onChange={(e)=>setSearchGenre(e.target.value)}/>
-            </>
-          }
-          {isGenreVisible && <div className="options tooltip"
-                style={{
-                  // display: isGenreVisible ? 'block':'none',
-                }}>
-              {
-                genreList.filter( genre =>{
-                  return genre.toLowerCase().includes(searchGenre.toLowerCase())
-                }).map( (genre,index) =>(
-                  <div key={index} className='label-wrapper'>
-                    <input type="checkbox" style={{display:'none'}} name="genre" id={genre} value={genre} />
-                    <label className="label" htmlFor={genre} data-value={genre} onClick={handleGenreClick}>{genre}</label>
-                  </div>
-                ) )
-              }
-          </div>}
       </div>
     )
   }
@@ -119,92 +133,79 @@ function NamedInput({name,handleSearch}){
     // const [format,isFormatVisible,handleFormatVisible,formatList,searchFormat,handleFormatSelect,setSearchFormat]=formatProps;
 
     return (
-                <div className={`${className}-input`} onClick={handleFormatVisible} ref={domElementRef}>
-                    {(!Boolean(format.length) && !isFormatVisible) && <span className='ip-placeholder' >Format</span>}
-                      {(Boolean(format.length) && !isFormatVisible) &&
-                      <span className='active-filters'>{format[0]}</span>
-                      }
-                      { (format.length>1 && !isFormatVisible) &&
-                        <span className='active-filters'>+{format.length-1}</span>
-                      }
-                      {<div className="angle-down">
-                          <i className="fa-solid fa-angle-down" ></i>
-                      </div>
-                      }
-                      { isFormatVisible &&<> 
-                        {/* <div className="angle-down" onClick={handleFormatVisible}>
-                          <i className="fa-solid fa-xmark"></i>
-                        </div> */}
-                          <input type="text" name="" id="" autoFocus 
-                            onChange={ (e)=> setSearchFormat(e.target.value) }/>
-                        </>
-                      }   
+      <div className={`${className}-input`} onClick={handleFormatVisible} ref={domElementRef}>
+                    <ManyInputComp 
+                        props={[format,isFormatVisible,setSearchFormat,className]}
+                    />
                     {<div className="options tooltip"
                             style={{
-                              display: isFormatVisible ? 'block' : 'none',
+                              // display: isFormatVisible ? 'block' : 'none',
                               // transition:'all 200ms cubic-bezier(0.68, -0.55, 0.265, 1.55)',
                               // transition: 'all linear 300ms',
                               // transform:isFormatVisible? 'translateY(0%) scale(0.95)' : 'translateY(-10%) scale(0.95)',
                               opacity: isFormatVisible ? '1' : '0',
-                              visibility: isFormatVisible? 'visible' : 'hidden'
+                              visibility: isFormatVisible? 'visible' : 'hidden',
+                              pointerEvents: isFormatVisible? 'unset' : 'none',
+                              transition: '300ms',
                             }}>
                         {
                           formatList.filter(({value,name}) => {
                             return name.toLowerCase().includes(searchFormat.toLowerCase())
-                          }).map( (format,index) =>(
+                          }).map( ({value,name},index) =>(
                             <div key={index} className='label-wrapper'>
-                              <input type="checkbox" style={{display:'none'}} name="format" id={format.value} value={format.value} />
-                              <label className="label" htmlFor={format.value} data-value={format.value}  onClick={handleFormatSelect}>{format.name}</label>
+                              <input type="checkbox" name="format" id={value} value={value}
+                                      checked={format.includes(value)? true: false} readOnly/>
+                              <label className="label" htmlFor={value} data-value={value}  onClick={handleFormatSelect}>{name}</label>
                             </div>
                           ) )
                         }
                     </div>}
-                        
                 </div>
+              
     )
   }
   
   
-  function YearInput({year,setYearVisible,isYearVisible,yearList,setYear}) {
-    return (
-                <div className="SeasonYear-input" onClick={()=> setYearVisible(!isYearVisible)}>
-                        { !year  && <span className='ip-placeholder'  >Year</span>}
-                        {year && 
-                            <span 
-                                style={{
-                                  color:'rgb(46, 198, 91)',
-                                  fontSize:'0.85em'
-                                }} 
+  // function OldYearInput({year,setYearVisible,isYearVisible,yearList,setYear}) {
+  //   return (
+  //               <div className="SeasonYear-input" onClick={()=> setYearVisible(!isYearVisible)}>
+  //                       { !year  && <span className='ip-placeholder'  >Year</span>}
+  //                       {year && 
+  //                           <span 
+  //                               style={{
+  //                                 color:'rgb(46, 198, 91)',
+  //                                 fontSize:'0.85em'
+  //                               }} 
                                 
-                            >
-                                {year}
-                            </span>
-                        }
-                        { !isYearVisible && <div className="angle-down" >
-                          <i className="fa-solid fa-angle-down" ></i>
-                        </div>
-                        }
-                        { isYearVisible && <div className="angle-down" >
-                            <i className="fa-solid fa-xmark"></i>
-                          </div>
-                        }   
-                        <div className="options tooltip"
-                              style={{
-                                display: isYearVisible ? 'block':'none',
-                              }}>
-                          {
-                            yearList.map( (year) =>(
-                              <div key={year} className='label-wrapper'>
-                                {/* <input type="radio" style={{display:'none'}} name="year" id={year} value={year} onClick={handleYearClick}/>
-                                <label htmlFor={year} >{year}</label> */}
-                                <label className="label" onClick={()=>{ setYear(year);}}>{year}</label>
-                              </div>
-                            ) )
-                          }
-                    </div>
-                  </div>
-    )
-  }
+  //                           >
+  //                               {year}
+  //                           </span>
+  //                       }
+  //                       { !isYearVisible && <div className="angle-down" >
+  //                         <i className="fa-solid fa-angle-down" ></i>
+  //                       </div>
+  //                       }
+  //                       { isYearVisible && <div className="angle-down" >
+  //                           <i className="fa-solid fa-xmark"></i>
+  //                         </div>
+  //                       }   
+  //                       <div className="options tooltip"
+  //                             style={{
+  //                               display: isYearVisible ? 'block':'none',
+  //                             }}>
+  //                         {
+  //                           yearList.map( (year) =>(
+  //                             <div key={year} className='label-wrapper'>
+  //                               {/* <input type="radio" style={{display:'none'}} name="year" id={year} value={year} onClick={handleYearClick}/>
+  //                               <label htmlFor={year} >{year}</label> */}
+  //                               <label className="label" onClick={()=>{ setYear(year);}}>{year}</label>
+  //                             </div>
+  //                           ) )
+  //                         }
+  //                   </div>
+  //                 </div>
+  //   )
+  // }
   
   function YearSeasonInput({props,className}) {
     const [Input,setInputVisible,isInputVisible,inputList,setInput,placeholder]=props;
@@ -271,39 +272,148 @@ function NamedInput({name,handleSearch}){
     )
   }
   
-  function SeasonInput({season,seasonList,setSeasonVisible,isSeasonVisible,setSeason}) {
-    return (
-          <div className="Season-input" onClick={()=> setSeasonVisible(!isSeasonVisible)}>
-              { !season  && <span className='ip-placeholder'>Season</span>}
-              {season && <>
-                  <span 
-                      style={{
-                        color:'rgb(46, 198, 91)'
-                      }}
-                      onClick={()=> setSeasonVisible(!isSeasonVisible)}
-                      >{season}</span>
-                  <div className="angle-down" onClick={()=>{ setSeason(undefined)}}>
-                      <i className="fa-solid fa-xmark"></i>
-                </div>
-                </>
-              }
-              { !season && <div className="angle-down" onClick={()=> setSeasonVisible(!isSeasonVisible)}>
-                <i className="fa-solid fa-angle-down" ></i>
-              </div>
-              }
+  // function OldSeasonInput({season,seasonList,setSeasonVisible,isSeasonVisible,setSeason}) {
+  //   return (
+  //         <div className="Season-input" onClick={()=> setSeasonVisible(!isSeasonVisible)}>
+  //             { !season  && <span className='ip-placeholder'>Season</span>}
+  //             {season && <>
+  //                 <span 
+  //                     style={{
+  //                       color:'rgb(46, 198, 91)'
+  //                     }}
+  //                     onClick={()=> setSeasonVisible(!isSeasonVisible)}
+  //                     >{season}</span>
+  //                 <div className="angle-down" onClick={()=>{ setSeason(undefined)}}>
+  //                     <i className="fa-solid fa-xmark"></i>
+  //               </div>
+  //               </>
+  //             }
+  //             { !season && <div className="angle-down" onClick={()=> setSeasonVisible(!isSeasonVisible)}>
+  //               <i className="fa-solid fa-angle-down" ></i>
+  //             </div>
+  //             }
               
-              {isSeasonVisible && <div className="options tooltip">
-                  {
-                    seasonList.map( (season) =>(
-                      <div key={season} className='label-wrapper'>
-                        <label className="label" onClick={()=>{ setSeason(season)}}>{season}</label>
-                      </div>
-                    ) )
-                  }
-                </div>
-              }
-           </div>
-    )
+  //             {isSeasonVisible && <div className="options tooltip">
+  //                 {
+  //                   seasonList.map( (season) =>(
+  //                     <div key={season} className='label-wrapper'>
+  //                       <label className="label" onClick={()=>{ setSeason(season)}}>{season}</label>
+  //                     </div>
+  //                   ) )
+  //                 }
+  //               </div>
+  //             }
+  //          </div>
+  //   )
+  // }
+  function SingleInputComp({props,className}){
+      const [Input,setInputVisible,isInputVisible,inputList,setInput]=props;
+      const YearSeasonRef=useRef();
+      console.log(Input,setInput);
+      const handleOutsideClick = (event) => {
+        if (YearSeasonRef.current && !YearSeasonRef.current.contains(event.target)) {
+          setInputVisible(false);
+          
+        }
+      };
+      React.useEffect(() => {
+        window.addEventListener('click', handleOutsideClick);
+    
+        return () => {
+          window.removeEventListener('click', handleOutsideClick);
+        };
+      }, []);
+
+    return (
+                <div className={`${className}-input`} onClick={()=> setInputVisible(!isInputVisible)} ref={YearSeasonRef}>
+                        { !Input  && <span className='ip-placeholder'  >{className}</span>}
+                        {Input && 
+                            <span 
+                            style={{
+                                color:'var(--green-8)',
+                                fontSize:'0.9em'
+                              }} 
+                              
+                            >
+                                {TitleCase(Input.toString().replace(/_/g, ' '))}
+                            </span>
+                        }
+                        { !isInputVisible && 
+                            <div
+                                style={{
+                                  pointerEvents:'none',
+                                }}
+                                className="angle-down" >
+                              <i className="fa-solid fa-angle-down" ></i>
+                            </div>
+                        }
+                        { isInputVisible && <div className="angle-down" >
+                            <i className="fa-solid fa-xmark"></i>
+                          </div>
+                        }   
+                        <div className="options tooltip"
+                              style={{
+                                display: isInputVisible ? 'block':'none',
+                              }}>
+                          {
+                            inputList.map( (item,index) =>(
+                              <div key={index} className='label-wrapper'>
+                                {/* <input type="radio" style={{display:'none'}} name="year" id={year} value={year} onClick={handleYearClick}/>
+                                <label htmlFor={year} >{year}</label> */}
+                                <label className="label" onClick={()=>{ setInput(prev=> prev==item ? undefined : item)}}>
+                                    {TitleCase(item.toString().replace(/_/g, ' '))}
+                                </label>
+                              </div>
+                            ) )
+                          }
+                    </div>
+                  </div>
+    )  
+    }
+
+  function YearInput({setYear,year}){
+    const currentYear=new Date().getFullYear();
+    const yearList=Array.from({ length: currentYear - 1940 + 1 }, (_, index) => currentYear - index);
+    const [isYearVisible,setYearVisible] =useState(false);
+    const props=[year,setYearVisible,isYearVisible,yearList,setYear]
+    return <SingleInputComp  
+                props={props}
+                className={"Year"}
+              />
   }
-  export {NamedInput,FormatInput,GenreInput,SeasonInput,YearInput,YearSeasonInput}
+
+  function SeasonInput({setSeason,season}){
+    const seasonList=['WINTER','SPRING','SUMMER','FALL']
+    const [isSeasonVisible,setSeasonVisible] =useState(false);
+    const props=[season,setSeasonVisible,isSeasonVisible,seasonList,setSeason];
+    
+    return <SingleInputComp 
+              className={"Season"}
+              props={props}
+            />
+  }
+
+  function SourceInput({setSource,source}){
+    const sourceList=["ORIGINAL", "MANGA", "LIGHT_NOVEL", "VISUAL_NOVEL", "VIDEO_GAME", "NOVEL", "DOUJINSHI", "ANIME", "WEB_NOVEL", "LIVE_ACTION", "GAME", "COMIC", "MULTIMEDIA_PROJECT", "PICTURE_BOOK","OTHER"];
+    const [isSourceVisible,setSourceVisible] =useState(false);
+    const props=[source,setSourceVisible,isSourceVisible,sourceList,setSource];
+    
+    return <SingleInputComp 
+              className={"Source"}
+              props={props}
+            />
+  }
+
+  function StatusInput({setStatus,status}){
+    const statusList=[ 'FINISHED','RELEASING', 'NOT_YET_RELEASED',  'CANCELLED']
+    const [isStatusVisible,setStatusVisible] =useState(false);
+    const props=[status,setStatusVisible,isStatusVisible,statusList,setStatus];
+    
+    return <SingleInputComp 
+              className={"Status"}
+              props={props}
+            />
+  }
+  
+  export {NamedInput,FormatInput,GenreInput,YearInput,SeasonInput,YearSeasonInput,SourceInput,StatusInput}
   

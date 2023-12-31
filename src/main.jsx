@@ -1,6 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import  App from './App.jsx'
+import { Provider } from 'react-redux';
+import store from './store'
 import './index.css'
 import { useNavigate } from 'react-router-dom'
 import { ApolloClient, InMemoryCache, ApolloProvider, gql } from '@apollo/client';
@@ -12,6 +14,8 @@ import {
   Navigate,
 } from "react-router-dom";
 import Details from './Details.jsx';
+
+
 const customMergeFunction = (existing, incoming) => {
   // Merge logic here
   // You may want to merge based on IDs or some other criteria
@@ -64,7 +68,10 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <ApolloProvider client={client}>
-      <RouterProvider router={router} />
+      <Provider store={store}>
+        <RouterProvider router={router} />
+      </Provider>
     </ApolloProvider>
   </React.StrictMode>
+  
 )

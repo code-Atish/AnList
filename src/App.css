@@ -110,6 +110,7 @@ input > div {
 
 .label-wrapper{
   width:100%;
+  position: relative;
 }
 .label{
   display:inline-block;
@@ -117,15 +118,24 @@ input > div {
   height:100%;
   cursor: pointer;
 }
-[type="checkbox"]:checked + .label::after,[type="radio"]:checked + .label::after{
+[type="checkbox"]{
+  appearance: none;
+  position: absolute;
+}
+[type="checkbox"]:checked + .label::after,
+[type="radio"]:checked + .label::after{
   content:"✅";
   position: absolute;
-  right:10px;
+  right:0px;
 }
-[type="checkbox"]:not(:checked) + .label::after,[type="radio"]:checked + .label::after{
+
+[type="checkbox"]:not(:checked) + .label::after,[type="radio"]:not(:checked) + .label::after{
   content:"";
   position: absolute;
-  right:10px;
+  right:0px;
+}
+[type="checkbox"]:checked + .label{
+  color:var(--text-cyan-500)
 }
 /* label:hover{
   background:
@@ -159,7 +169,8 @@ input > div {
   visibility: visible;
   margin-left: 5px;
 }
-.applied-filters span,.applied-filters label{
+.applied-filters span{
+/* .applied-filters label{ */
   pointer-events: none; 
 }
 .applied-filters-wrapper:hover  .clearall-btn{
