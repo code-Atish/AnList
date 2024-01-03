@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { MyContext } from '../../Details'
 
-const WatchTab = ( {data } ) => {
+const WatchTab = ( { data } ) => {
   return (
     <div className="watch_list">
               {

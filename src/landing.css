@@ -1,0 +1,35 @@
+.landing__hero{
+    height: 100vh;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction:column;
+    /* background-color: rgb(9, 9, 67);
+    color:white; */
+    background:linear-gradient(0deg, rgba(0, 0, 0, 0.409) 0%,transparent 100%);
+}
+.routes_wrapper{
+    display:flex;
+    /* justify-content: center;
+    align-items: center; */
+    justify-content: center;
+    grid-template-columns: repeat(4,150px);
+    gap:2em
+}
+.route_cont{
+    display:flex;
+    flex:1;
+    text-align: center;
+    /* height: 100px; */
+    padding:20px;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid rgba(0, 0, 0, 0.322);
+    border-radius: 5px;
+    transition:300ms linear ;
+}
+.route_cont:hover {
+    border: 1px solid var(--text-cyan-500);
+    box-shadow: 0px 0px 50px -32px var(--blue-9);
+}

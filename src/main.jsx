@@ -1,11 +1,16 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import  App from './App.jsx'
-import { Provider } from 'react-redux';
-import store from './store'
-import './index.css'
-import { useNavigate } from 'react-router-dom'
-import { ApolloClient, InMemoryCache, ApolloProvider, gql } from '@apollo/client';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App.jsx";
+import { Provider } from "react-redux";
+import store from "./store";
+import "./index.css";
+import { useNavigate } from "react-router-dom";
+import {
+  ApolloClient,
+  InMemoryCache,
+  ApolloProvider,
+  gql,
+} from "@apollo/client";
 import {
   createBrowserRouter,
   RouterProvider,
@@ -13,7 +18,12 @@ import {
   Link,
   Navigate,
 } from "react-router-dom";
-import Details from './Details.jsx';
+import Details from "./Details.jsx";
+import Home from "./Home.jsx";
+import TagsBar from "./TagsBar.jsx";
+import DisplayTrending from "./ui/Trending.jsx";
+import DisplaySearch from "./searchAnime.jsx";
+import Landing from "./Landing.jsx";
 
 
 const customMergeFunction = (existing, incoming) => {
@@ -27,9 +37,8 @@ const customMergeFunction = (existing, incoming) => {
   };
 };
 
-
 const client = new ApolloClient({
-  uri: 'https://graphql.anilist.co',
+  uri: "https://graphql.anilist.co",
   cache: new InMemoryCache({
     typePolicies: {
       Query: {
@@ -46,26 +55,33 @@ const client = new ApolloClient({
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App/>,
+    element: <App />,
     children: [
       {
         path: "search",
-        element: <div>search</div>,
+        element: <TagsBar />,
       },
+      // {
+      //   path: "/Home",
+      //   element: <Home/>,
+      //   index:true,
+      // },
       {
-        path: "/Home",
-        element: <div>Home route</div>,
-        index:true,
-      },
+        path:'/trending',
+        element:<DisplaySearch
+                  sortCriteria={'TRENDING_DESC'}
+                  filterOptions={Array(7).fill(undefined)}
+                  />
+      }
     ],
   },
   {
     path: "/details/:id",
-    element: <Details/>,
+    element: <Details />,
   },
 ]);
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <ApolloProvider client={client}>
       <Provider store={store}>
@@ -73,5 +89,4 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       </Provider>
     </ApolloProvider>
   </React.StrictMode>
-  
-)
+);

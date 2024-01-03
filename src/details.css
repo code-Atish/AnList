@@ -85,7 +85,8 @@ a{
     gap:2em;
 }
 .PV_wrapper{
-    
+   z-index: 1;  
+   border-radius: 5px; 
 }
 .PV{
     width:var(--image-width);

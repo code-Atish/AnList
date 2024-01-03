@@ -85,7 +85,7 @@ input > div {
 [class$='-input']{
   flex: 1 1 16%;
   background:white;
-  padding:9px 0px 10px 10px;
+  padding:9px 0px 10px 14px;
   border-radius: 7px;
   color:rgba(33, 53, 71,0.7);
   color:var(--input-text-color);
@@ -126,7 +126,7 @@ input > div {
 [type="radio"]:checked + .label::after{
   content:"✅";
   position: absolute;
-  right:0px;
+  right:10px;
 }
 
 [type="checkbox"]:not(:checked) + .label::after,[type="radio"]:not(:checked) + .label::after{
@@ -259,8 +259,9 @@ input > div {
   position: absolute;
   min-width:min-content;
   width:100%;
-  padding:5px 10px;
-  left:0;
+  padding:5px 5px;
+  left:unset;
+  right:0;
   top:100%;
   visibility: visible;
   opacity:1;
@@ -295,20 +296,23 @@ input > div {
   opacity: 1;
 } */
 .options > option,.label{
- padding:10px 10px;
- transition: 100ms all linear;
+  padding:10px 15px;
+  transition: 100ms all linear;
+  border-radius:5px;
 }
 .options > option:hover,.label:hover{
   color:#49eeef;
   color:#4599de;
-  cursor: pointer;
+  background:var(--blue-3);
   opacity:0.7;
  }
  option.active{
   opacity:0.5;
   color:cyan;
  }
-
+.active-option{
+  color:var(--text-cyan-500);
+}
 
 /* #root {
   max-width: 1280px;
@@ -416,6 +420,7 @@ input:-internal-autofill-selected {
   outline:none;
   padding:0;
   width:100%;
+  color:var(--input-text-color)
 }
 [type="submit"]{
   padding:13px;
@@ -458,7 +463,7 @@ input:-internal-autofill-selected {
   -webkit-line-clamp: 2;
   overflow: hidden;
 }
-.card-wrapper:hover .info{
+[class$='card-wrapper']:hover .info{
   color:var(--hover-color)
 }
 .studio{
@@ -550,11 +555,18 @@ border-color: transparent white transparent transparent;
 top:10%;
 right:100%;
 }
-.card-wrapper:nth-child(5n)  .tooltip,.search-card-wrapper:nth-child(5n)  .tooltip{
+.card-wrapper:nth-child(5n)  .tooltip,
+.search-card-wrapper:nth-child(5n) .tooltip,
+.card-wrapper:nth-child(6n)  .tooltip,
+.search-card-wrapper:nth-child(6n) .tooltip{
   left:initial;
   right:100%;
 }
-.card-wrapper:nth-child(5n)  .tooltip::before,.search-card-wrapper:nth-child(5n)  .tooltip::before{
+.card-wrapper:nth-child(5n)  .tooltip::before,
+.search-card-wrapper:nth-child(5n)  .tooltip::before,
+.card-wrapper:nth-child(6n)  .tooltip::before,
+.search-card-wrapper:nth-child(6n)  .tooltip::before
+{
   left:100%;
   right: initial;
   border-color: transparent transparent transparent white;
@@ -686,7 +698,7 @@ img{
     right: initial;
     border-color: transparent transparent transparent white;
   }
-  .search-card-wrapper:nth-child(5n-1)  .tooltip{
+  .search-card-wrapper:nth-child(5n-1) .tooltip{
     left:initial;
     right:100%;
   }
@@ -732,9 +744,9 @@ img{
     font-size:0.75rem;
   }
   h1{ font-size:1.4em;}
-  /* .tooltip{ 
+  .tooltip{ 
     display:none
-  } */
+  }
 
 }
 

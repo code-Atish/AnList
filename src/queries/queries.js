@@ -1,45 +1,5 @@
 import { gql } from '@apollo/client';
 
-const getTrending = gql`
-query Trending($page: Int, $perPage: Int, $type: MediaType,$sort:[MediaSort],$seasonYear:Int,
-  $format:MediaFormat, $season:MediaSeason, $genre: String){
-    Page(page:$page,perPage:$perPage){
-      media(type:$type,sort:$sort,seasonYear:$seasonYear,season:$season,format:$format,genre:$genre){
-        id
-        title{
-          romaji
-          english
-        }
-        season
-        seasonYear
-        episodes
-        format
-        meanScore
-        genres
-        startDate {
-          year
-        }
-        studios(isMain: true) {
-          nodes{
-            name
-          }
-        }
-        streamingEpisodes{
-          url
-          site
-          title
-        }
-        nextAiringEpisode {
-          timeUntilAiring,episode
-        }
-        coverImage {
-          extraLarge
-          color
-        }
-      }
-    }
-  }
-`;
 
 const getAnime = gql`
 query getAnime($page: Int, $perPage: Int,$search:String,$sort:[MediaSort],$seasonYear:Int,
@@ -81,37 +41,6 @@ query getAnime($page: Int, $perPage: Int,$search:String,$sort:[MediaSort],$seaso
 }
 `;
 
-const getPopular = gql`
-query Popular($page: Int, $perPage: Int,$season: MediaSeason,$seasonYear: Int, $type: MediaType,$sort:[MediaSort]){
-    Page(page:$page,perPage:$perPage){
-      media(type:$type,sort:$sort,season:$season,seasonYear:$seasonYear){
-        id
-        title{
-          romaji
-          english
-        }
-        season
-        seasonYear
-        episodes
-        format
-        meanScore
-        genres
-        studios(isMain: true) {
-          nodes{
-            name
-          }
-        }
-        nextAiringEpisode {
-          timeUntilAiring,episode
-        }
-        coverImage {
-          extraLarge
-          color
-        }
-      }
-    }
-  }
-`;
 // 
 const getDetails=gql`
 query Details($id:Int,$page:Int,$perPage:Int,$language:StaffLanguage,$charPage:Int,$charPerPage:Int,
@@ -282,7 +211,7 @@ query CharDetails($id:Int,$language:StaffLanguage,$charPage:Int,$charPerPage:Int
   Page(page: 1, perPage: 1) {
     media(id: $id) {
       id
-      characters(sort: [ROLE, RELEVANCE], page: $charPage, perPage: $charPerPage) {
+      characters(sort: [ROLE, RELEVANCE,FAVOURITES_DESC], page: $charPage, perPage: $charPerPage) {
         pageInfo{
           currentPage
           hasNextPage
@@ -314,34 +243,4 @@ query CharDetails($id:Int,$language:StaffLanguage,$charPage:Int,$charPerPage:Int
   }
 }
 `;
-export {getAnime, getTrending, getPopular,getDetails,getCharacterDetails};
-
-// studios(sort:FAVOURITES_DESC){
-//   edges{
-//     isMain
-//     node{
-//       name
-//     }
-//   }
-// }
-
-// recommendations(sort: RATING_DESC, page: 8, perPage: 10) {
-//   pageInfo {
-//     hasNextPage
-//     currentPage
-//   }
-//   nodes {
-//     mediaRecommendation {
-//       id
-//       title {
-//         romaji
-//         english
-//       }
-//       coverImage {
-//         color
-//         extraLarge
-//       }
-//       popularity
-//     }
-//   }
-// }
+export {getAnime,getDetails,getCharacterDetails};

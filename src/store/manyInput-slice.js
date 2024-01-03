@@ -8,41 +8,32 @@ const manyInputSlice = createSlice({
         isFormatVisible: false,
         genre: [],
         isGenreVisible: false,
-        searchGenre:'',
+        searchGenre: '',
+        name: '',
     },
     reducers: {
-        // modifyYear: (state, actions) => {
-        //     state.year = state.year == actions.payload ? undefined : actions.payload;
-        // },
-        modifyFormatVisibility: (state, action) => {
-            state.isFormatVisible = action.payload;
+        modifySearchGenre: (state, action) => {
+            state.searchGenre = action.payload;
         },
-        handleGenreSelect: (state, action) => {
-            // if (state.genre.includes(action.payload)) {
-            //     console.log(action.payload)
-            //     let newArr = state.genre.filter((item) => item != action.payload);
-            //     state.genre = newArr;
-            // } else
-            //     state.genre = [...state.genre, action.payload];
-            // state.isGenreVisible = !state.isGenreVisible;
 
-            // console.log(newFormat)
-            state.genre=action.payload;
+        modifyGenre: (state, action) => {
+            state.genre = action.payload
         },
-        modifyGenreVisibility: (state, action) => {
-            state.isGenreVisible = action.payload;
-            state.searchGenre='';
+        modifyFormat: (state, action) => {
+            state.format = action.payload
         },
-        modifySearchGenre : (state,action) => {
-            state.searchGenre=action.payload;
-        } 
+        modifyName: (state, action) => {
+            state.name = action.payload
+        }
+
     },
 });
 
 export const {
-    handleGenreSelect,
-    modifyGenreVisibility,
-    modifySearchGenre
+    modifySearchGenre,
+    modifyGenre,
+    modifyFormat,
+    modifyName
 } = manyInputSlice.actions;
 
 export default manyInputSlice.reducer;
