@@ -1,8 +1,5 @@
-function isEmpty(Array){
-  Array.some(ele=>{
-    return !ele;
-  })
-}
+import { indigo } from "@radix-ui/colors";
+
 function calcSecondsToDhms(seconds){
   const days = Math.floor(seconds / 86400);
   seconds %= 86400;
@@ -41,6 +38,23 @@ function nextEpCounter(data){
 
     return airingTime;
 }
+function timeUntilAiring(data){
+  let seconds=data.timeUntilAiring;
+  let episode=data.episode;
+  const [days,hours,minutes]=calcSecondsToDhms(seconds);
+  let airingTime = ``;
+  if (days !== 0) {
+    airingTime += `${days} Day`;
+  }
+
+  if (hours !== 0) {
+    airingTime += ` ${hours} Hrs`;
+  }
+
+  airingTime += ` ${minutes} Mins`;
+
+  return airingTime;
+}
   function truncateSentence(sentence,length=45) {
     const maxLength=length;
     if (sentence?.length <= maxLength) {
@@ -61,4 +75,4 @@ function nextEpCounter(data){
         return word.charAt(0).toUpperCase() + word.substr(1).toLowerCase().replace(/_/g,' ');
     });
 }
-  export  {secondsToDhms,truncateSentence,capitalizeString,nextEpCounter,isEmpty,TitleCase} 
+  export  {timeUntilAiring,secondsToDhms,truncateSentence,capitalizeString,nextEpCounter,TitleCase} 

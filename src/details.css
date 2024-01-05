@@ -16,7 +16,7 @@
 html,body{
     padding: 0;
     margin: 0;
-    scroll-behavior: smooth;
+    /* scroll-behavior: smooth; */
     overflow:auto;
 }
 /* --------------------helper---------------- */
@@ -396,6 +396,7 @@ input {
   gap:1.5em;
 }
 .link_det_wrapper{
+  position: relative;
   background:white;
   display:flex;
   padding:3px;
@@ -406,6 +407,7 @@ input {
 }
 .link_det_wrapper.nolink{
   transition: 200ms;
+  height: 100%;
 }
 .link_det_wrapper:hover{
   background:var(--hover-color);
@@ -421,7 +423,9 @@ input {
 }
 .link_det_wrapper.nolink:hover .link_name{
   color:var(--text-cyan-500);
-
+}
+.link_det_wrapper.nolink:hover .notes{
+  color:var(--mauve-9);
 }
 .nolink_icon_wrapper{
   width: 29px;

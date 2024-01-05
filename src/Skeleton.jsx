@@ -2,7 +2,7 @@ import React from 'react';
 import './skeleton.css'
 import './App.css'
 
-function SkeletonBody({length}){
+export function SkeletonBody({length}){
 return (
         Array(length||5).fill(1).map((data,index) => (
             <div className="card-wrapper loading-wrapper" key={index}>
@@ -17,7 +17,6 @@ return (
 }
 
  function Skeleton({title,length}) {
-
     return <>
         {title && <h1>{ title }</h1>}
         <div className="trending-list">
@@ -25,7 +24,25 @@ return (
         </div>
     </>    
 }
+export function InfoCardSkeleton({length}){
+    return (<>
+        <div className="info-card-list loading-wrapper">
+        {Array(length||2).fill(1).map((data,index) => (
+            <div className="info-card" key={index}>
+                <div className="info-PV-wrapper" >
+                    <div className="info-PV"></div>
+                </div>
+                <div className="info-cont-wrapper">
+                    <div className="loading-wrapper upper-block"></div>
+                    <div className=".loading-wrapper middle-block"></div>
+                    <div className=".loading-wrapper middle-block"></div>
 
+                </div>
+            </div>
+        ))}
+        </div>
+    </>)
+}
 export default Skeleton
 
 

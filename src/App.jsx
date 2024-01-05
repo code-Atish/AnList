@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {pageActions} from './store/page-slice';
 import Home from './Home';
 import { modifySortText, modifySortValue } from './store/sort-slice';
+import TagsBar from './TagsBar';
 
 
 
@@ -71,17 +72,6 @@ function App() {
   const handleSearch= (e) => {
         setName(e.target.value)
   }
-
-  const navigate=useNavigate();
-   useEffect(()=>{
-    navigate('/',{replace: true});
-    
-  },[])
-  useEffect(()=>{
-    if((filterOptions.some( ele => ele!==undefined)))
-    // if((filterOptions.some( ele => ele!==undefined)|| sortValue))
-        navigate(`search`)
-  },[name,format,year,season,genre,status,source,sortValue])
   return (
     <div className="max-width">
       <div className="trending">
@@ -98,7 +88,6 @@ function App() {
                 <GenreInput/>
 
                 <DialogDemo  
-                    navigate={navigate}
                 />
               </section>
       </div>
@@ -109,16 +98,11 @@ function App() {
                   <Home />    
               </>)
         }
-      {(filterOptions.some( ele => ele!==undefined)||sortValue) && <></>      }
+      {(filterOptions.some( ele => ele!==undefined)||sortValue) && 
+                  <TagsBar/>
+      }
         
-        <div className="btns">
-            <button onClick={() => dispatch(pageActions.decrement())}>Prev</button>
-            <button onClick={() => dispatch(pageActions.increment())}>Next</button>
-          </div>
-        <p className="read-the-docs" style={{display:"block",textAlign:"center"}}>
-          {/* Click on the Vite and React logos to learn more */}
-          Current Page : { pageNumber }
-        </p>
+        
       </div>
     </div>
   )

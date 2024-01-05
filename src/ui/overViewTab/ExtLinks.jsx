@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { MyContext } from "../../Details";
 
-const ExtLinks = () => {
+function ExtLinks() {
   const { data } = useContext(MyContext);
   const externalLinks = data.externalLinks;
   return (
@@ -58,6 +58,6 @@ const ExtLinks = () => {
       </div>
     </div>
   );
-};
+}
 
 export default ExtLinks;

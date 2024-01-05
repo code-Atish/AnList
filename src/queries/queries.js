@@ -15,6 +15,10 @@ query getAnime($page: Int, $perPage: Int,$search:String,$sort:[MediaSort],$seaso
       format
       meanScore
       genres
+      source
+      description
+      hashtag
+      bannerImage
       title {
         romaji
         english
@@ -22,6 +26,8 @@ query getAnime($page: Int, $perPage: Int,$search:String,$sort:[MediaSort],$seaso
       }
       startDate {
         year
+        month
+        day
       }
       studios(isMain: true) {
         nodes{
@@ -36,6 +42,25 @@ query getAnime($page: Int, $perPage: Int,$search:String,$sort:[MediaSort],$seaso
         extraLarge
         color
       }
+      externalLinks {
+        url
+        site
+        icon
+        color
+        notes
+        language
+      }
+      relations{
+        edges{
+          relationType(version:2)
+          node{
+              title{
+              romaji
+              english
+            }
+          }
+        }
+      } 
     }
   }
 }

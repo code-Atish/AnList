@@ -1,14 +1,14 @@
 import React from "react";
 import { useQuery } from "@apollo/client";
 import { getAnime } from "./queries/queries";
-import Skeleton from "./Skeleton";
+import Skeleton, { InfoCardSkeleton } from "./Skeleton";
 import { secondsToDhms, truncateSentence } from "./converTime";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./App.css";
 import "./skeleton.css";
-import { ListStructure } from "./ui/Trending";
+import { CardStructure, ListStructure } from "./ui/Trending";
 
 function isElementOutsideViewport(index) {
   const el = document.getElementsByClassName("tooltip")[index];
@@ -58,14 +58,14 @@ const DisplaySearchData = ({ animeList, hasMore }) => {
   );
 };
 
-function DisplaySearch({ sortCriteria, filterOptions }) {
+function DisplaySearch({ sortCriteria, filterOptions, version }) {
   const controller = new AbortController();
   const { signal } = controller;
   sortCriteria = sortCriteria || "POPULARITY_DESC";
   const [perPage, setPerPage] = useState(5);
   const [pageNumber, setPageNumber] = useState(2);
   const [hasMore, setHasMore] = useState(true);
-  const [name, format, year, season, genre, status, source] = filterOptions;
+  const [name, format, year, season, genre, status, source] = filterOptions || Array(7).fill(undefined);
   const { loading, error, data, fetchMore } = useQuery(getAnime, {
     variables: {
       search: name,
@@ -98,7 +98,7 @@ function DisplaySearch({ sortCriteria, filterOptions }) {
           },
         };
       },
-      context:  {
+      context: {
         // Attach the signal to the context
         fetchOptions: {
           signal,
@@ -107,17 +107,18 @@ function DisplaySearch({ sortCriteria, filterOptions }) {
     });
   };
 
-  useEffect(() => {
-    setPerPage(
-      getComputedStyle(
-        document.querySelector(".trending-list")
-      ).getPropertyValue("--childNum")
-    );
-    console.log(perPage);
-    return () => controller.abort();
-  }, []);
-  
-  if (loading) return <Skeleton length={6} />;
+  // useEffect(() => {
+  //   setPerPage(
+  //     getComputedStyle(
+  //       document.querySelector(".trending-list")
+  //     ).getPropertyValue("--childNum")
+  //   );
+  //   console.log(perPage);
+  //   return () => controller.abort();
+  // }, []);
+
+  if (loading)
+    return version ? <InfoCardSkeleton length={4} /> : <Skeleton length={5} />;
   if (error) return <p>Error : {error.message}</p>;
 
   const animeList = data?.Page.media || [];
@@ -132,11 +133,15 @@ function DisplaySearch({ sortCriteria, filterOptions }) {
           <p style={{ textAlign: "center" }}>Yay! You have seen it all</p>
         }
       >
-        <ListStructure
-          animeList={animeList}
-          hasMore={hasMore}
-          searchComponent={true}
-        />
+        {" "}
+        {version && <CardStructure hasMore={hasMore} animeList={animeList} />}
+        {!version && (
+          <ListStructure
+            animeList={animeList}
+            hasMore={hasMore}
+            searchComponent={true}
+          />
+        )}
       </InfiniteScroll>
     )
   );

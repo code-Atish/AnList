@@ -330,9 +330,6 @@ function ManyInputComp({props}){
       const [Input,setInputVisible,isInputVisible,inputList,setInput]=props;
       const YearSeasonRef=useRef();
       const handleOutsideClick = (event) => {
-        if(className=="Year"){
-          console.log(YearSeasonRef.current,event.target)
-        }
         if (YearSeasonRef.current && !YearSeasonRef.current.contains(event.target)) {
           setInputVisible(false);
         }

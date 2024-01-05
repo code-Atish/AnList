@@ -24,6 +24,7 @@ import TagsBar from "./TagsBar.jsx";
 import DisplayTrending from "./ui/Trending.jsx";
 import DisplaySearch from "./searchAnime.jsx";
 import Landing from "./Landing.jsx";
+import TrendingPage from "./TrendingPage.jsx";
 
 
 const customMergeFunction = (existing, incoming) => {
@@ -66,19 +67,22 @@ const router = createBrowserRouter([
       //   element: <Home/>,
       //   index:true,
       // },
-      {
-        path:'/trending',
-        element:<DisplaySearch
-                  sortCriteria={'TRENDING_DESC'}
-                  filterOptions={Array(7).fill(undefined)}
-                  />
-      }
+      //
     ],
   },
   {
     path: "/details/:id",
     element: <Details />,
   },
+  {
+      path:'/trending/:page',
+      // element:<DisplaySearch
+      //           sortCriteria={'TRENDING_DESC'}
+      //           filterOptions={Array(7).fill(undefined)}
+      //           />
+      element:<TrendingPage />
+  }
+
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(

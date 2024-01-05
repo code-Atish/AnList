@@ -4,7 +4,10 @@
     --skeleton-gray: #CACBCB;
     --skeleton-purplish:#d7e2fc;
 }
-.loading-wrapper .card{
+.loading-wrapper .card,
+.loading-wrapper .info-PV-wrapper,
+.loading-wrapper .upper-block,
+.loading-wrapper .middle-block{
     background:var(--skeleton-gray);
         /* background:linear-gradient(#ecf2ff,var(--skeleton-gray));
         background:linear-gradient(to right,#eaf1ff,#f8f9ff,#eaf1ff);
@@ -13,6 +16,21 @@
     /* background-size: 200%; */
     background-position: center;
     animation: loading 2s infinite;
+}
+
+.loading-wrapper .upper-block{
+    height:15px;
+    border-radius: 5px;
+    margin:20px 10px;
+    width:90%;
+    animation: loading 2s infinite;
+}
+.loading-wrapper .middle-block{
+    animation: loading 2s infinite;
+    height:10px;
+    border-radius: 15px;
+    margin:5px 10px;
+    width:60%;
 }
 .loading-wrapper{
     animation: scale-in linear 300ms;
