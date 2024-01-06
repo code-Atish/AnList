@@ -1,10 +1,10 @@
 import React from "react"
-import { useRef, useState } from "react"
-import { TitleCase } from "../../../converTime"
+import { useRef, useState } from "react";
+import { TitleCase } from "../../utility/utilityFunctions";
 import { useDispatch, useSelector } from "react-redux";
-import DisplayTrending from "../../Trending";
-import { modifySeason, modifySeasonVisibility, modifySource, modifySourceVisibility, modifyStatus, modifyStatusVisibility, modifyYear, modifyYearVisibility } from "../../../store/singleInput-slice";
-import { modifyFormat, modifyGenre, modifyName } from "../../../store/manyInput-slice";
+import DisplayTrending from "../Trending";
+import { modifySeason, modifySeasonVisibility, modifySource, modifySourceVisibility, modifyStatus, modifyStatusVisibility, modifyYear, modifyYearVisibility } from "../../store/singleInput-slice";
+import { modifyFormat, modifyGenre, modifyName } from "../../store/manyInput-slice"
 
 function NamedInput({}){
     const dispatch=useDispatch();
@@ -33,14 +33,20 @@ function ManyInputComp({props}){
             { (Input.length>1 && !isInputVisible) &&
               <span className='active-filters'>+{Input.length-1}</span>
             }
-            {<div className="angle-down">
+            {!isInputVisible &&
+              <div 
+                  style={{
+                    pointerEvents:'none',
+                  }}
+                  className="angle-down"
+                >
                 <i className="fa-solid fa-angle-down" ></i>
             </div>
             }
             { isInputVisible &&<> 
-              {/* <div className="angle-down" onClick={handleFormatVisible}>
+              <div className="angle-down">
                 <i className="fa-solid fa-xmark"></i>
-              </div> */}
+              </div>
                 <input type="text" name="" id="" autoFocus 
                   onChange={ (e)=> setSearchInput(e.target.value) }/>
               </>
@@ -159,14 +165,7 @@ function ManyInputComp({props}){
                     />
                     {<div className="options tooltip"
                             style={{
-                              // display: isFormatVisible ? 'block' : 'none',
-                              // transition:'all 200ms cubic-bezier(0.68, -0.55, 0.265, 1.55)',
-                              // transition: 'all linear 300ms',
-                              // transform:isFormatVisible? 'translateY(0%) scale(0.95)' : 'translateY(-10%) scale(0.95)',
-                              opacity: isFormatVisible ? '1' : '0',
-                              visibility: isFormatVisible? 'visible' : 'hidden',
-                              pointerEvents: isFormatVisible? 'unset' : 'none',
-                              transition: '300ms',
+                              display: isFormatVisible ? 'block' : 'none',
                             }}>
                         {
                           formatList.filter(({value,name}) => {
@@ -275,6 +274,7 @@ function ManyInputComp({props}){
                         <div className="options tooltip"
                               style={{
                                 display: isInputVisible ? 'block':'none',
+                                visibility: isInputVisible ? 'hidden':'visible',
                               }}>
                           {
                             inputList.map( (item,index) =>(
@@ -359,6 +359,8 @@ function ManyInputComp({props}){
                                 }}
                                 className="angle-down" >
                               <i className="fa-solid fa-angle-down" ></i>
+          
+
                             </div>
                         }
                         { isInputVisible && <div className="angle-down" >

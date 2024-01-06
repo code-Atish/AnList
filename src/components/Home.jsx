@@ -1,5 +1,6 @@
-import DisplayTrending from "./ui/Trending";
+import DisplayTrending from "./Trending";
 import PopularAnime from "./PopularAnime";
+import TopAnime from "./TopAnime";
 
 const Home = () => {
   return (
@@ -26,6 +27,8 @@ const Home = () => {
         sortCriteria={["POPULARITY_DESC", "Popularity"]}
         title="All Time Popular"
       />
+
+      <TopAnime />  
     </>
   );
 };

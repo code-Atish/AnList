@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { MyContext } from '../../Details'
+import { MyContext } from '../../../pages/Details'
 
 const WatchTab = ( { data } ) => {
   return (

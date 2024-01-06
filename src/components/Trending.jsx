@@ -1,7 +1,7 @@
 import { useQuery } from "@apollo/client";
-import Skeleton, { InfoCardSkeleton, SkeletonBody } from "../Skeleton";
-import { TitleCase, secondsToDhms, timeUntilAiring } from "../converTime";
-import { getAnime } from "../queries/queries";
+import Skeleton, { InfoCardSkeleton, SkeletonBody } from "./Skeleton";
+import { TitleCase, secondsToDhms, timeUntilAiring } from "../utility/utilityFunctions";
+import { getAnime } from "../utility/queries";
 import { Link, Navigate, redirect, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { modifySortText, modifySortValue } from "../store/sort-slice";
@@ -30,7 +30,7 @@ function extractHashTitles(inputString) {
   return hashTitles;
 }
 
-export function CardStructure({ animeList, hasMore }) {
+export function CardStructure({ animeList, hasMore,TopAnime }) {
   // console.log(animeList[0].nextAiringEpisode.episode)
   const sequeltTo = animeList;
   console.log(animeList);
@@ -40,7 +40,9 @@ export function CardStructure({ animeList, hasMore }) {
         {animeList.map((data, index) => (
           <div
             key={index}
-            className="info-card"
+            // className="info-card"
+            data-rank={`#${index+1}`}
+            className={(TopAnime && index<100) ? "info-card anime-rank" : "info-card"}
             style={{ "--bg-hover-color": data.coverImage.color }}
           >
             <Link to={`/details/${data.id}`}>
@@ -201,7 +203,7 @@ function ListStructure({
   title,
   searchComponent,
   hasMore,
-  version,
+  TopAnime
 }) {
   return (
     <>
@@ -236,7 +238,8 @@ function ListStructure({
           >
             <Link to={`/details/${data.id}`} style={{ textDecoration: "none" }}>
               <div
-                className="card"
+                data-rank={`#${index+1}`}
+                className={(TopAnime && index<100) ? "card anime-rank" : "card"}
                 style={{ backgroundColor: data.coverImage.color }}
               >
                 <img
@@ -335,7 +338,7 @@ export default function DisplayTrending({ sortCriteria, title }) {
   const navigate=useNavigate()
   const pageNumber = useSelector((state) => state.page.page);
   const [sortValue, sortText] = sortCriteria;
-  const redirectTo= (sortValue == 'TRENDING_DESC') ?  1   : 0
+  const redirectTo= (sortValue == 'TRENDING_DESC') ?  0  : 1
   const handleView = () => {
     // dispatch(modifySortValue(sortValue));
     // dispatch(modifySortText(sortText));

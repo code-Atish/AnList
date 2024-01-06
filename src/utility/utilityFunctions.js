@@ -16,7 +16,8 @@ function secondsToDhms(data) {
     let seconds = data.nextAiringEpisode.timeUntilAiring
     let episode = data.nextAiringEpisode.episode
     const [days,hours,minutes]=calcSecondsToDhms(seconds)
-    if(days===0) return `Ep ${episode} airs in ${hours} Hours`
+    if(days===0) return `Ep ${episode} airs in ${hours} Hours`;
+    if(days===0 && hours===0) return`Ep ${episode} airs in ${minutes} Mins`;
     return `Ep ${episode} airs in ${days} Days`;
 }
   

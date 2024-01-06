@@ -1,10 +1,10 @@
 import { useQuery } from "@apollo/client";
-import { getAnime } from "./queries/queries";
+import { getAnime } from "../utility/queries";
 import Skeleton from "./Skeleton";
-import "./App.css";
+import "../assets/styles/app.css";
 import { useDispatch, useSelector } from "react-redux";
-import { modifySeason, modifyYear } from "./store/singleInput-slice";
-import { ListStructure } from "./ui/Trending";
+import { modifySeason, modifyYear } from "../store/singleInput-slice";
+import { ListStructure } from "./Trending";
 
 function getCurrentSeasonAndYear(nextSeason) {
   const now = new Date();

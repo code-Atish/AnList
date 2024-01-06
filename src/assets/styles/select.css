@@ -17,21 +17,17 @@ button {
   padding: 10px 15px;
   margin-bottom:1.5em;
   font-size: 0.9em;
-  /* letter-spacing:1px; */
   gap: 5px;
   background-color: white;
   color: var(--mauve-8);
-  /* box-shadow: 0 2px 10px var(--black-a7); */
   cursor: pointer;
   transition:200ms;
 }
 .SelectTrigger:hover {
     color:var(--mauve-10);
-  /* background-color: var(--mauve-3); */
     box-shadow:rgb(41 71 80 / 20%) 0px 0px 30px -10px;
 }
 .SelectTrigger:focus,.SelectTrigger:focus-visible {
-  /* box-shadow: 0 0 0 2px black; */
   outline:none;
 }
 .SelectTrigger[data-placeholder] {
@@ -126,15 +122,9 @@ button {
     }
 }
 
-/* ---------------------------------------------------DialogCss-------------------- */
+/* ----------------------------------------DialogCss-------------------- */
 
 
-/* reset */
-/* button,
-fieldset,
-input {
-  all: unset;
-} */
 
 .DialogOverlay {
   background-color: var(--black-a9);
@@ -303,12 +293,110 @@ input {
   gap:2em 1.5em;
 }
 
+/* --------------------------------------------------Top100Anime---------------------------- */
+.top-anime-list{
+  gap:1.5em;
+  --image-width:55px;
+  --aspect-ratio:3/4;
+  display: flex;
+  flex-direction: column;
+}
+.anime-cont-wrapper{
+  display: flex;
+}
+.anime-cont{
+  display:flex;
+  justify-content: space-between;
+  gap:2em;
+  width:100%;
+  background:white;
+  border-radius: 5px;
+  padding:10px;
+}
+.col-0{
+  width:50px;
+  display: grid;
+  place-items: center;
+  font-weight: bolder;
+  opacity:0.6;
+  transition:250ms;
+}
+.anime-cont-wrapper:hover > .col-0{
+  color:var(--text-cyan-500)
+}
+.col-1{
+  display:flex;
+  flex-basis: 50%;
+}
+.info-PV{
+  border-radius: 2px;
+}
+.anime-title-genre{
+  justify-content: space-around;
+  gap:15px;
+  margin:auto auto auto 0;
+  padding:0 10px;
+}
 
-/* .visible_input_section > .Format-input,
-.visible_input_section > .SeasonYear-input,
-.visible_input_section  > .Genre-input{
-  display:initial
-} */
+.anime-title-genre > .anime-title{
+  padding:0 10px;
+  font-weight: bold;
+  color:#5e6d7b;
+  font-size: 1.1em;
+  transition: 300ms;
+  cursor:pointer;
+}
+.anime-title-genre > .anime-title:hover{
+  color:var(--hover-color,rgb(6 182 212))
+}
+.anime-genre{
+  font-size:0.85rem;
+  height: max-content;
+  display: flex;
+  align-items: center;
+}
+.anime-title-genre > .anime-genre:nth-child(n+6){
+  display: none;
+}
+
+.col-2{
+  display:flex;
+  margin-left:auto;
+  flex-basis: 45%;
+  gap:1em;
+}
+.anime-det-box{
+  justify-content:center;
+  font-weight: bold;
+  gap:5px;
+  flex:1
+}
+.anime-det-box:last-child{
+  flex-grow:2
+}
+.top-dets{
+  color:#5e6d7b;
+  font-size:.88rem;
+
+}
+.bottom-dets{
+  color:#8398b8;
+  color:var(--black-a6);
+  font-size:0.83rem;
+}
+.top-anime-wrapper .trending-list{
+  display:none;
+}
+@media only screen and (max-width: 900px){
+  .top-anime-list {
+      display: none;
+  }
+  .top-anime-wrapper .trending-list{
+      display:grid
+  }
+
+}
+/* -----------------------------------Dialog Inputs----------------------------- */
 .dialog_input > .Format-input,
 .dialog_input > .Season-input,
 .dialog_input > .Year-input,
@@ -328,3 +416,5 @@ input {
     display:unset;
   }
 }
+
+/* ----------------------------------End----------------------------------------- */

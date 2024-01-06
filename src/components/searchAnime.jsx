@@ -1,14 +1,14 @@
 import React from "react";
 import { useQuery } from "@apollo/client";
-import { getAnime } from "./queries/queries";
+import { getAnime } from "../utility/queries";
 import Skeleton, { InfoCardSkeleton } from "./Skeleton";
-import { secondsToDhms, truncateSentence } from "./converTime";
+import { secondsToDhms, truncateSentence } from "../utility/utilityFunctions";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import "./App.css";
-import "./skeleton.css";
-import { CardStructure, ListStructure } from "./ui/Trending";
+import { useState } from "react";
+import "../assets/styles/app.css";
+import "../assets/styles/skeleton.css";
+import { CardStructure, ListStructure } from "./Trending";
+import TopAnime from "./TopAnime";
 
 function isElementOutsideViewport(index) {
   const el = document.getElementsByClassName("tooltip")[index];
@@ -58,14 +58,15 @@ const DisplaySearchData = ({ animeList, hasMore }) => {
   );
 };
 
-function DisplaySearch({ sortCriteria, filterOptions, version }) {
+function DisplaySearch({ sortCriteria, filterOptions, version ,TopAnime }) {
   const controller = new AbortController();
   const { signal } = controller;
   sortCriteria = sortCriteria || "POPULARITY_DESC";
   const [perPage, setPerPage] = useState(5);
   const [pageNumber, setPageNumber] = useState(2);
   const [hasMore, setHasMore] = useState(true);
-  const [name, format, year, season, genre, status, source] = filterOptions || Array(7).fill(undefined);
+  const [name, format, year, season, genre, status, source] =
+    filterOptions || Array(7).fill(undefined);
   const { loading, error, data, fetchMore } = useQuery(getAnime, {
     variables: {
       search: name,
@@ -134,12 +135,19 @@ function DisplaySearch({ sortCriteria, filterOptions, version }) {
         }
       >
         {" "}
-        {version && <CardStructure hasMore={hasMore} animeList={animeList} />}
+        {version && (
+          <CardStructure
+            hasMore={hasMore}
+            animeList={animeList}
+            TopAnime={TopAnime}
+          />
+        )}
         {!version && (
           <ListStructure
             animeList={animeList}
             hasMore={hasMore}
             searchComponent={true}
+            TopAnime={TopAnime}
           />
         )}
       </InfiniteScroll>

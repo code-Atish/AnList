@@ -1,10 +1,10 @@
 import React, { useRef } from "react";
-import { TitleCase } from "../../converTime";
+import { TitleCase } from "../../../utility/utilityFunctions";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { PropagateLoader } from "react-spinners";
-import SelectDemo from "../SelectDemo";
+import SelectDemo from "../../SelectDemo";
 import { useState } from "react";
-import { getCharacterDetails } from "../../queries/queries";
+import { getCharacterDetails } from "../../../utility/queries"
 import { useQuery } from "@apollo/client";
 
 function ImageComponent({ src, alt }) {

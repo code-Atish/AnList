@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
-import { TitleCase } from "../../converTime";
-import { MyContext } from "../../Details";
+import { TitleCase } from "../../../utility/utilityFunctions";
+import { MyContext } from "../../../pages/Details";
 
 const Relations = () => {
   const { data } = useContext(MyContext);

@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { MyContext } from "../../Details";
+import { MyContext } from "../../../pages/Details";
 
 function ExtLinks() {
   const { data } = useContext(MyContext);

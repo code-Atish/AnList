@@ -1,6 +1,6 @@
 import React from 'react';
-import './skeleton.css'
-import './App.css'
+import '../assets/styles/skeleton.css'
+import '../assets/styles/App.css'
 
 export function SkeletonBody({length}){
 return (

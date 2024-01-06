@@ -4,15 +4,15 @@ import {
   modifySource,
   modifyStatus,
   modifyYear,
-} from "./store/singleInput-slice";
+} from "../store/singleInput-slice";
 import { useDispatch, useSelector } from "react-redux";
-import { TitleCase } from "./converTime";
-import { modifyFormat, modifyGenre, modifyName } from "./store/manyInput-slice";
+import { TitleCase } from "../utility/utilityFunctions";
+import { modifyFormat, modifyGenre, modifyName } from "../store/manyInput-slice";
 import {
   modifySortText,
   modifySortValue,
   modifySortVisibility,
-} from "./store/sort-slice";
+} from "../store/sort-slice";
 import DisplaySearch from "./searchAnime";
 import { useNavigate, useParams } from "react-router-dom";
 import { GridIcon } from "@radix-ui/react-icons";
@@ -206,10 +206,12 @@ const TagsBar = () => {
         </div>
 
         <div className="sort-by-wrapper">
-          <GridIcon
-            className={version ? "active" : ""}
-            onClick={() => setVersion((prev) => !prev)}
-          />
+          <div className="svg-wrapper">
+            <GridIcon
+              className={version ? "active" : ""}
+              onClick={() => setVersion((prev) => !prev)}
+            />
+          </div>
           <div className="sort-by-trend">
             <i className="fa-solid fa-sort"></i>
             <div

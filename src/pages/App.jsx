@@ -1,15 +1,15 @@
 import { useState,useEffect } from 'react'
 import React from 'react';
-import './App.css'
+import "../assets/styles/App.css"
 import {  Outlet } from 'react-router-dom';
-import DialogDemo from './ui/DialogDemo';
-import { FormatInput, GenreInput, NamedInput, SeasonInput, SourceInput, StatusInput, YearInput, YearSeasonInput } from './ui/overViewTab/InputComponent/InputComponent';
+import DialogDemo from '../ui/DialogDemo';
+import { FormatInput, GenreInput, NamedInput, SeasonInput, SourceInput, StatusInput, YearInput, YearSeasonInput } from '../components/InputComponent/InputComponent';
 import { useNavigate }  from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
-import {pageActions} from './store/page-slice';
-import Home from './Home';
-import { modifySortText, modifySortValue } from './store/sort-slice';
-import TagsBar from './TagsBar';
+import {pageActions} from '../store/page-slice';
+import Home from '../components/Home';
+import { modifySortText, modifySortValue } from '../store/sort-slice';
+import TagsBar from '../components/TagsBar';
 
 
 

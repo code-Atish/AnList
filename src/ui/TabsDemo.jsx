@@ -1,13 +1,13 @@
 import React, { useContext, useRef, useState } from "react";
 import * as Tabs from "@radix-ui/react-tabs";
-import "../details.css";
-import Relations from "./overViewTab/Relations";
-import ExtLinks from "./overViewTab/ExtLinks";
-import Recommendations from "./overViewTab/Recommendations";
-import WatchTab from "./WatchTab/WatchTab";
-import { CharactersTab } from "./CharactersTab/CharactersTab";
-import StaffTab from "./StaffTab/StaffTab";
-import { MyContext } from "../Details";
+import "../assets/styles/details.css"
+import Relations from "./tabs/overViewTab/Relations";
+import ExtLinks from "./tabs/overViewTab/ExtLinks";
+import Recommendations from "./tabs/overViewTab/Recommendations";
+import WatchTab from "./tabs/WatchTab/WatchTab";
+import { CharactersTab } from "./tabs/CharactersTab/CharactersTab";
+import StaffTab from "./tabs/StaffTab/StaffTab";
+import { MyContext } from "../pages/Details";
 
 const TabsDemo = () => {
   const { data } = useContext(MyContext);

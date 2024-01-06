@@ -1,9 +1,9 @@
 import React, { useContext } from "react";
-import { ImageComponent, Loader } from "../../CharactersTab/CharactersTab";
-import { TitleCase } from "../../utility/utilityFunctions";
+import { ImageComponent, Loader } from "../CharactersTab/CharactersTab";
+import { TitleCase } from "../../../utility/utilityFunctions";
 import { PropagateLoader } from "react-spinners";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { MyContext } from "../../pages/Details";
+import { MyContext } from "../../../pages/Details";
 
 //Reused CharacterTabs Component Hence some CSS classes might be reused Here.:)
 const StaffTab = () => {

@@ -1,30 +1,16 @@
 import { createContext, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@apollo/client";
-import { getDetails } from "./queries/queries";
-import { TitleCase, nextEpCounter } from "./converTime";
-import TabsDemo from "./ui/TabsDemo";
-import { Loader } from "./ui/CharactersTab/CharactersTab";
-import "./details.css";
+import { getDetails } from "../utility/queries";
+import { TitleCase, nextEpCounter } from "../utility/utilityFunctions";
+import TabsDemo from "../ui/TabsDemo";
+import { Loader } from "../ui/tabs/CharactersTab/CharactersTab";
+import "../assets/styles/details.css";
 import { errorCodes } from "@apollo/client/invariantErrorCodes";
-import { MakeRequest } from "./ui/Trending";
+import { MakeRequest } from "../components/Trending";
+
 
 const MyContext = createContext();
-const shortMonthNames = [
-  "",
-  "Jan",
-  "Feb",
-  "Mar",
-  "Apr",
-  "May",
-  "Jun",
-  "Jul",
-  "Aug",
-  "Sep",
-  "Oct",
-  "Nov",
-  "Dec",
-];
 function Details() {
   const { id } = useParams();
   // Function to update language without causing re-render
@@ -40,7 +26,7 @@ function Details() {
   });
   if (loading)
     return (
-      <div style={{ height: "100vh", display: "grid", placeItems: "center" }}>
+      <div className="loading_screen">
         <Loader />
       </div>
     );
@@ -48,11 +34,24 @@ function Details() {
   const Data = data.Page.media[0];
   const filteredRakings = Array.from(Data.rankings).slice(0, 2);
   const contextValue = { data: Data, fetchMore: fetchMore };
-
+  const shortMonthNames = [
+    "",
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
   const sidebarDetails = {
     Format: Data.format,
-    Episodes: Data.episode,
-    "Episode Duration": Data.duration,
+    "Episode Duration": Data.duration ? `${Data.duration} Mins`: null,
     Status: TitleCase(Data.status),
     "Start Date": `${shortMonthNames[Data.startDate.month]} ${
       Data.startDate.day

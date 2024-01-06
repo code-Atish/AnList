@@ -18,6 +18,7 @@ html,body{
     margin: 0;
     /* scroll-behavior: smooth; */
     overflow:auto;
+    min-height: 100vh;
 }
 /* --------------------helper---------------- */
 .max_width{
@@ -48,7 +49,12 @@ a{
 .text_left{
   text-align:end;
 }
-/* ------------------------------------------ */
+/* ------------------------Hero------------------ */
+.loading_screen{
+  height: 100vh;
+  display:grid;
+  place-items: center;
+}
 .banner{
     position: relative;
 }
@@ -65,12 +71,11 @@ a{
     position: absolute;
     height: 100%;
     width: 100%;
-    background:linear-gradient(0deg,rgba(0, 0, 0, 0.4),transparent)    
+    background:linear-gradient(0deg,rgba(0, 0, 0, 0.45),transparent)    
 }
 .hero__section{
     display:grid;
     --offset-image:-45%;
-    /* --offset-rankings:-45%; */
     --image-width:212px;
     grid-template-columns: var(--image-width) auto;
     gap:3em;
@@ -78,10 +83,8 @@ a{
 }
 .hero__image__container{
   --offsetY:-45%;
-  /* margin-top: var(--offsetY); */
 }
 .hero_image_content{
-    /* transform: translateY(var(--offsetY)); */
     gap:2em;
 }
 .PV_wrapper{
@@ -123,7 +126,7 @@ a{
     text-align: justify;
 }
 
-/* ------------------------------------ */
+/* ----------------------------------Details------------------------------------- */
 .details_section{
     display: grid;
     --sidebar-width:212px;
@@ -143,6 +146,7 @@ a{
 .Airing_det{
   color:var(--text-cyan-500);
   margin-bottom: 1em;
+  font-weight: bold;
 }
 .Airing_det > div{
   width: max-content;
@@ -157,26 +161,17 @@ a{
     font-size:0.9em;
     white-space:pre-line;
     line-height: 1.1;
-    /* text-transform: capis; */
+    font-weight: bold;
 }
 
 
 
-/* ---------------------Tabs--------- */
-
-
-/* reset */
-/* button,
-fieldset,
-input {
-  all: unset;
-} */
+/* ------------------------------------Tabs-------------------------------- */
 
 .TabsRoot {
   display: flex;
   flex-direction: column;
   width: 100%;
-  /* box-shadow: 0 2px 10px var(--black-a4); */
 }
 
 .TabsList {
@@ -216,7 +211,6 @@ input {
 .TabsTrigger:focus {
   position: relative;
   outline:none;
-  /* box-shadow: 0 0 0 2px black; */
 }
 
 .TabsContent {
@@ -228,13 +222,9 @@ input {
   border-bottom-right-radius: 6px;
   outline: none;
 }
-.TabsContent:focus {
-  /* box-shadow: 0 0 0 2px black; */
-}
 
 .Text {
   margin-top: 0;
-  /* margin-bottom: 10px; */
   color: var(--mauve-10);
   font-size: 0.85em;
   line-height: 1.5;
@@ -291,9 +281,6 @@ input {
 .Button.green:focus {
   box-shadow: 0 0 0 2px var(--green-7);
 }
-/* button:focus,button:focus-visible{
-    outline: none !important;
-} */
 
 /* ----------------------------------------------- */
 .overview_elements{
@@ -305,7 +292,6 @@ input {
   --relation-image-width:90px;
   grid-template-columns: repeat(2,1fr);
   gap:1.5em;
-  /* flex-wrap: wrap; */
   max-height:900px;
   overflow:auto
 }
@@ -356,7 +342,7 @@ input {
   color:var(--name-hover);
 }
 
-/* --------------------------Watch-Tab------------- */
+/* ----------------------------------------Watch-Tab------------------------------------- */
 .watch_list{
   display: grid;
   grid-template-columns: repeat(3,1fr);
@@ -389,7 +375,7 @@ input {
   aspect-ratio: 16/9;
   border-radius: 0;
 }
-/* -------------------External Links-------------------- */
+/* ---------------------------------------External Links------------------------------ */
 .streamlink_wrapper{
   display:grid;
   grid-template-columns: repeat(3,1fr);
@@ -440,7 +426,6 @@ input {
   width:25px;
   height:100%;
   background-color: var(--hover-color);
-  /* aspect-ratio: 1; */
   padding:5px;
   position: relative;
   border-radius: 2px;
@@ -459,18 +444,13 @@ input {
   color:var(--black-a6)
 }
 
-/* -------------------Recommendation ----------------- */
-.recomend_header{
-
-}
-
+/* --------------------------------Recommendation ------------------------------ */
 .Recommendations_wrapper{
   display: grid;
   grid-template-columns: repeat(6,1fr);
   --width: 1fr;
   gap:1.5em;
   flex-wrap: wrap;
-  /* --width:130px; */
   font-size:0.86em;
 }
 .Recommendations_wrapper a{
@@ -523,7 +503,7 @@ input {
   color:var(--black-a8);
 }
 
-/* ---------------------- Characters Tab----------- */
+/* ------------------------------------ Characters Tab--------------------------- */
 .character_list{
   display:grid;
   grid-template-columns: repeat(2,1fr);
@@ -540,7 +520,6 @@ input {
 .char_act_image{
   width:var(--width);
   aspect-ratio:3/4;
-  /* min-height:calc(var(--width)/2 * 3); */
   height: 100%;
   border-radius: 0;
   position: relative;
@@ -555,7 +534,6 @@ input {
 .char_act_name,.role_language{
   display:flex;
   justify-content: space-between;
-  /* flex-wrap: wrap; */
   gap:10px;
 }
 .char_act_name{
@@ -566,7 +544,7 @@ input {
   color:var(--black-a6); 
   font-size:0.85em;
 }
-/* --------------------Staff Tabs-------------------- */
+/* -----------------------------------Staff Tabs------------------------------- */
 .staff_list{
   display:grid;
   grid-template-columns: repeat(3,1fr);
@@ -576,7 +554,7 @@ input {
   display:-webkit-box;
   -webkit-line-clamp: 2;
 }
-/* ---------------------------------Media queries--------------------------- */
+/* -----------------------------------Media queries---------------------------- */
 @media only screen and (min-width: 1281px) {
   .margin{ margin:0 9em;}
   .synopsis{
@@ -765,16 +743,6 @@ input {
     .relations_wrapper::-webkit-scrollbar{
       width:5px;
     }
-
-    /* .link_det_wrapper {
-      background-color: var(--hover-color);
-    }
-    .link_name{ color:white;}
-    .notes{color:var(--mauve-5)}
-    .link_det_wrapper.nolink .link_name{
-      color:var(--text-cyan-500)  
-    } */
-
     .Recommendations_wrapper {
       display:grid;
       grid-template-columns: repeat(3,1fr);
@@ -789,5 +757,5 @@ input {
     padding : 5px 7px;
     font-size:0.84em;
   }
-
 }
+/* ------------------------------------------End-------------------------------------- */

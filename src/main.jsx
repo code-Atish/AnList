@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App.jsx";
+import App from "./pages/App.jsx";
 import { Provider } from "react-redux";
 import store from "./store";
 import "./index.css";
@@ -18,13 +18,13 @@ import {
   Link,
   Navigate,
 } from "react-router-dom";
-import Details from "./Details.jsx";
-import Home from "./Home.jsx";
-import TagsBar from "./TagsBar.jsx";
-import DisplayTrending from "./ui/Trending.jsx";
-import DisplaySearch from "./searchAnime.jsx";
-import Landing from "./Landing.jsx";
-import TrendingPage from "./TrendingPage.jsx";
+import Details from "./pages/Details.jsx";
+// import Home from "./Home.jsx";
+// import TagsBar from "./TagsBar.jsx";
+// import DisplayTrending from "./ui/Trending.jsx";
+// import DisplaySearch from "./searchAnime.jsx";
+// import Landing from "./Landing.jsx";
+import TrendingPage from "./pages/TrendingPage.jsx";
 
 
 const customMergeFunction = (existing, incoming) => {
@@ -58,10 +58,10 @@ const router = createBrowserRouter([
     path: "/",
     element: <App />,
     children: [
-      {
-        path: "search",
-        element: <TagsBar />,
-      },
+      // {
+      //   path: "search",
+      //   element: <TagsBar />,
+      // },
       // {
       //   path: "/Home",
       //   element: <Home/>,

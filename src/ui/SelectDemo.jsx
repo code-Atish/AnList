@@ -2,8 +2,8 @@ import React from 'react';
 import * as Select from '@radix-ui/react-select';
 import classnames from 'classnames';
 import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from '@radix-ui/react-icons';
-import { TitleCase } from '../converTime';
-import './CharactersTab/select.css';
+import { TitleCase } from '../utility/utilityFunctions';
+import '../assets/styles/select.css';
 
 
 const SelectDemo = ( { setVALanguage,languageRef,disabled } ) => {

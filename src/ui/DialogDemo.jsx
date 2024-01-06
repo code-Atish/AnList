@@ -9,16 +9,9 @@ import {
   StatusInput,
   YearInput,
   YearSeasonInput,
-} from "./overViewTab/InputComponent/InputComponent";
+} from "../components/InputComponent/InputComponent";
 
-const DialogDemo = ({
-  formatProps,
-  yearProps,
-  seasonProps,
-  statusProps,
-  genreProps,
-  sourceProps,
-}) => {
+const DialogDemo = () => {
   return (
     <Dialog.Root>
       <Dialog.Trigger asChild>
@@ -46,9 +39,6 @@ const DialogDemo = ({
               justifyContent: "flex-end",
             }}
           >
-            <Dialog.Close asChild>
-              <button className="Button green">Save changes</button>
-            </Dialog.Close>
           </div>
           <Dialog.Close asChild>
             <button className="IconButton" aria-label="Close">

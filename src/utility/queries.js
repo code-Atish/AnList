@@ -19,6 +19,7 @@ query getAnime($page: Int, $perPage: Int,$search:String,$sort:[MediaSort],$seaso
       description
       hashtag
       bannerImage
+      popularity
       title {
         romaji
         english
