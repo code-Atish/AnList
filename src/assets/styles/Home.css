@@ -1,0 +1,247 @@
+.top-anime-list{
+  gap:1.5em;
+  --image-width:55px;
+  --aspect-ratio:3/4;
+  display: flex;
+  flex-direction: column;
+}
+.anime-cont-wrapper{
+  display: flex;
+}
+.anime-cont{
+  display:flex;
+  justify-content: space-between;
+  gap:2em;
+  width:100%;
+  background:white;
+  border-radius: 5px;
+  padding:10px;
+  box-shadow:0px 4px 20px -20px #01342b
+}
+.col-0{
+  width:50px;
+  display: grid;
+  place-items: center;
+  font-weight: bolder;
+  opacity:0.6;
+  transition:250ms;
+}
+.anime-cont-wrapper:hover > .col-0{
+  color:var(--text-cyan-500)
+}
+.col-1{
+  display:flex;
+  flex-basis: 50%;
+}
+.info-PV{
+  border-radius: 2px;
+}
+.anime-title-genre{
+  justify-content: space-around;
+  gap:15px;
+  margin:auto auto auto 0;
+  padding:0 10px;
+}
+
+.anime-title-genre > .anime-title{
+  padding:0 10px;
+  font-weight: bold;
+  color:#5e6d7b;
+  font-size: 1.1em;
+  transition: 300ms;
+  cursor:pointer;
+}
+.anime-title-genre > .anime-title:hover{
+  color:var(--hover-color,rgb(6 182 212))
+}
+.anime-genre{
+  font-size:0.85rem;
+  height: max-content;
+  display: flex;
+  align-items: center;
+}
+.anime-title-genre > .anime-genre:nth-child(n+6){
+  display: none;
+}
+
+.col-2{
+  display:flex;
+  margin-left:auto;
+  flex-basis: 45%;
+  gap:1em;
+}
+.anime-det-box{
+  justify-content:center;
+  font-weight: bold;
+  gap:5px;
+  flex:1
+}
+.anime-det-box:last-child{
+  flex-grow:2
+}
+.top-dets{
+  color:#5e6d7b;
+  font-size:.88rem;
+}
+.top-dets i{
+  /* font-size:1rem; */
+  color:var(--emoji-color)
+}
+.bottom-dets{
+  color:#8398b8;
+  color:var(--black-a6);
+  font-size:0.83rem;
+}
+.top-anime-wrapper .trending-list{
+  display:none;
+}
+
+.no-results,.fetch-error{
+  min-height: 50vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.no-internet-img{
+  width:200px;
+  height: 200px;
+  opacity:0.6;
+  position: relative;
+}
+
+/* ---------------------------------------Error Page ----------------- */
+.error-page-wrapper{
+  padding:3em 0em;
+  min-height: 90vh;
+  display: flex;
+}
+.border-box{
+  margin:auto;
+  border:4px solid var(--error-border-col);
+  width:max-content;
+  padding: 2rem;
+  border-radius: 20px;
+}
+.error-page-cont{
+  background:white;
+  --image-width:350px;
+  display: grid;
+  place-items: center;
+  grid-template-columns: 400px var(--image-width);
+  justify-content: center;
+  border-radius: 15px;
+  overflow: clip;
+  box-shadow: 0px 10px 30px 0px var(--error-border-shadow-col);
+}
+.error-message{
+  height: 100%;
+  justify-content: center;
+  padding:2rem 4rem;
+  gap:2em;
+} 
+.status-code{
+  font-size:4em;
+  font-weight: bolder;
+  margin:0;
+  opacity:0.8;
+}
+.error-msg-cont{
+  line-height: 1.4;
+  font-size:1.5em;
+  color:rgb(68, 130, 6);
+  color:var(--text-cyan-500)
+}
+.error-msg-cont > p{
+  color:black;
+  opacity: 0.6;
+  margin:0;
+  font-weight: bold;
+}
+
+@property --myColor1 {
+  syntax: '<color>';
+  initial-value: cyan;
+  inherits: false;
+}
+
+@property --myColor2 {
+  syntax: '<color>';
+  initial-value: rgb(6 182 212);
+  inherits: false;
+}
+
+.go__home-btn{
+  padding:10px 20px;
+  color:white;
+  font-weight: bold;
+  background:linear-gradient(90deg,var(--myColor1), var(--myColor2));
+  width:max-content;
+  border-radius: 20px;
+  transition:all 200ms linear ;
+  transition: --myColor1 .7s, --myColor2 .7s;
+  cursor: pointer;
+}
+.go__home-btn:hover{
+  --myColor1: rgb(6 182 212);
+  --myColor2: cyan;
+}
+.go__home-btn:hover > a{
+  color:white
+}
+.zoro-img{
+  position: relative;
+  width:var(--image-width);
+  border-radius:0;
+}
+
+
+
+
+@media only screen and (max-width: 900px){
+  .top-anime-list {
+      display: none;
+  }
+  .top-anime-wrapper .trending-list{
+      display:grid
+  }
+
+  .error-page-cont{
+    --image-width:300px;
+    grid-template-columns: 300px var(--image-width);
+  }
+  .error-message{
+    padding:2rem;
+    gap:1.5em;
+  }
+  .status-code{
+    font-size: 3em;
+  }
+  .error-msg-cont{ font-size: 1.2rem;}
+  .go__home-btn { font-size: 0.9rem; }
+}
+
+@media only screen and (max-width: 720px){
+  .error-page-wrapper{ min-height:100vh; display: flex;}
+  .zoro-img{ display:none}
+  .error-page-cont{
+    display: flex;
+    height: 100%;
+  }
+  .border-box{
+    width:100%;
+    margin:0;
+  }
+  .error-message{ align-items: center;}
+  .error-msg-cont { text-align :center }
+
+}
+@media only screen and (max-width: 480px){
+  .border-box{
+    padding:0;
+    border:0px;
+  }
+
+  .error-page-cont{ box-shadow: none;}
+  .error-page-cont { background:initial}
+}

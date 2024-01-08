@@ -27,7 +27,7 @@ const TabsDemo = () => {
             Characters
           </Tabs.Trigger>
         )}
-        {data.characters.edges.length > 0 && (
+        {data.staff.edges.length > 0 && (
           <Tabs.Trigger className="TabsTrigger" value="tab4">
             Staff
           </Tabs.Trigger>

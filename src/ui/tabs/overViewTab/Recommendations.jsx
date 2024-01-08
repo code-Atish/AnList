@@ -1,7 +1,6 @@
 import React, { useContext, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Link } from "react-router-dom";
-import { PropagateLoader } from "react-spinners";
 import { MyContext } from "../../../pages/Details";
 import { Loader } from "../CharactersTab/CharactersTab";
 

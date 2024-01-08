@@ -8,8 +8,60 @@ import { Loader } from "../ui/tabs/CharactersTab/CharactersTab";
 import "../assets/styles/details.css";
 import { errorCodes } from "@apollo/client/invariantErrorCodes";
 import { MakeRequest } from "../components/Trending";
+import { FetchError, NoResults } from "../components/Error";
 
+const shortMonthNames = [
+  "",
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
+];
+function getStartDate(startDateObj,data){
+  let startDate=''
+  if(startDateObj.month) startDate+=shortMonthNames[startDateObj.month]
+  if (startDateObj.day) startDate+=` ${startDateObj.day},`
+  if (startDateObj.year) startDate+=` ${startDateObj.year}`
+  return startDate || 'TBA'
+}
 
+function getSideBarDetails(Data){
+  const sidebarDetails = {
+    Format: Data.format,
+    Episodes: Data.episodes,
+    "Episode Duration": Data.duration ? `${Data.duration} Mins`: null,
+    Status: TitleCase(Data.status),
+    "Start Date": getStartDate(Data.startDate,Data),
+    Season: Data.season ? `${TitleCase(Data.season)} ${Data.seasonYear}` : undefined,
+    "Average Score": Data.averageScore ? `${Data.averageScore}%` : null,
+    "Mean Score": Data.meanScore ? `${Data.meanScore}%` : null,
+    Popularity: Data.popularity,
+    Favorites: Data.favourites,
+    Studios: Data.studios.edges
+      .filter(({ isMain }) => isMain)
+      .map(({ node }) => node.name)
+      .join("\n"),
+    Producers: Data.studios.edges
+      .filter(({ isMain }) => !isMain)
+      .map(({ node }) => node.name)
+      .join("\n"),
+    Source: Data.source,
+    // Hashtag: "#呪術廻戦 #呪術2期".join('\n'),
+    Genres: Data.genres.join("\n"),
+    Romaji: Data.title.romaji,
+    English: Data.title.english,
+    Native: Data.title.native,
+  };
+  return sidebarDetails;
+}
 const MyContext = createContext();
 function Details() {
   const { id } = useParams();
@@ -30,52 +82,13 @@ function Details() {
         <Loader />
       </div>
     );
-  if (error) return <p>Error : {error.message}</p>;
+  if (error) return <FetchError msg={error.message} />
   const Data = data.Page.media[0];
   const filteredRakings = Array.from(Data.rankings).slice(0, 2);
   const contextValue = { data: Data, fetchMore: fetchMore };
-  const shortMonthNames = [
-    "",
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-  ];
-  const sidebarDetails = {
-    Format: Data.format,
-    "Episode Duration": Data.duration ? `${Data.duration} Mins`: null,
-    Status: TitleCase(Data.status),
-    "Start Date": `${shortMonthNames[Data.startDate.month]} ${
-      Data.startDate.day
-    }, ${Data.startDate.year}`,
-    Season: `${TitleCase(Data.season)} ${Data.seasonYear}`,
-    "Average Score": Data.averageScore ? `${Data.averageScore}%` : null,
-    "Mean Score": Data.meanScore ? `${Data.meanScore}%` : null,
-    Popularity: Data.popularity,
-    Favorites: Data.favourites,
-    Studios: Data.studios.edges
-      .filter(({ isMain }) => isMain)
-      .map(({ node }) => node.name)
-      .join("\n"),
-    Producers: Data.studios.edges
-      .filter(({ isMain }) => !isMain)
-      .map(({ node }) => node.name)
-      .join("\n"),
-    Source: Data.source,
-    // Hashtag: "#呪術廻戦 #呪術2期".join('\n'),
-    Genres: Data.genres.join("\n"),
-    Romaji: Data.title.romaji,
-    English: Data.title.english,
-    Native: Data.title.native,
-  };
+  const sidebarDetails=getSideBarDetails(Data);
+  if (Data.length == 0) return <NoResults />;
+  
 
   return (
     <div>

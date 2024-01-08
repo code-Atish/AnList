@@ -1,9 +1,11 @@
 import { getAnime } from '../utility/queries';
 import { ListStructure, MakeRequest } from './Trending';
 import Skeleton from './Skeleton';
-import '../assets/styles/select.css'
-import { TitleCase, secondsToDhms } from '../utility/utilityFunctions';
+import '../assets/styles/Home.css'
+import { TitleCase, secondsToDhms,calculateDuration } from '../utility/utilityFunctions';
 import { Link, useNavigate } from 'react-router-dom';
+import { FetchError, NoResults } from './Error';
+
 
 function RowStructure({animeList,handleView}){
     return (
@@ -51,16 +53,16 @@ function RowStructure({animeList,handleView}){
                             </div>
                             <div className="col-2">
                                 <div className="anime-det-box flex">
-                                    <div className="top-dets">😊&nbsp;{data.meanScore}%</div>
+                                    <div className="top-dets"><i className="fa-regular fa-face-smile"></i>&nbsp;{data.meanScore}%</div>
                                     <div className="bottom-dets">{data.popularity} users</div>
                                 </div>
                                 <div className="anime-det-box flex">
                                     <div className="top-dets">{data.format.replace('_',' ')}</div>
-                                    <div className="bottom-dets">10 Episodes</div>
+                                    <div className="bottom-dets">{ data.episodes && (data.format=='MOVIE' ? calculateDuration(data.duration) : `${data.episodes} Episodes`)}</div>
                                 </div>
                                 <div className="anime-det-box flex">
                                     <div className="top-dets">{data.season && `${TitleCase(data.season)} ${data.seasonYear}` || data.startDate.year}</div>
-                                    <div className="bottom-dets">{(data.nextAiringEpisode && secondsToDhms(data)) || data.status}</div>
+                                    <div className="bottom-dets">{(data.nextAiringEpisode && secondsToDhms(data)) || TitleCase(data.status)}</div>
                                 </div>
                             </div>
                         </div>
@@ -84,8 +86,9 @@ const TopAnime = () => {
     }
     const { loading, data, error } = MakeRequest(variables, getAnime);
     if (loading) return <Skeleton title={"Top 100 Anime"} length={6} />;
-    if (error) return <p>Error : {error.message}</p>;
+    if (error) return <FetchError msg={error.message} />;
     const animeList = Array.from(data.Page.media).slice(0,15);
+    if (animeList.length == 0) return <NoResults />;
     return (
         <div className='top-anime-wrapper'>
             <RowStructure 

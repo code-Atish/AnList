@@ -2,8 +2,7 @@ import React from "react"
 import { useRef, useState } from "react";
 import { TitleCase } from "../../utility/utilityFunctions";
 import { useDispatch, useSelector } from "react-redux";
-import DisplayTrending from "../Trending";
-import { modifySeason, modifySeasonVisibility, modifySource, modifySourceVisibility, modifyStatus, modifyStatusVisibility, modifyYear, modifyYearVisibility } from "../../store/singleInput-slice";
+import { modifySeason, modifySource, modifySourceVisibility, modifyStatus, modifyStatusVisibility, modifyYear} from "../../store/singleInput-slice";
 import { modifyFormat, modifyGenre, modifyName } from "../../store/manyInput-slice"
 
 function NamedInput({}){
@@ -55,7 +54,6 @@ function ManyInputComp({props}){
   }
   function GenreInput() {
     const dispatch= useDispatch();
-    // const [genre,isGenreVisible,handleGenreVisible,genreList,searchGenre,handleGenreClick,setSearchGenre]=genreProps
     const genre=useSelector(state=> state.manyInput.genre);
     const setGenre=(value)=>{
       dispatch(modifyGenre(value))
@@ -76,7 +74,6 @@ function ManyInputComp({props}){
           }else
             setGenre([...genre,newGenre]);
           setGenreVisible(prev=>!prev);
-          // console.log(newFormat)
       }
       const handleOutsideGenreClick = (event) => {
         if (domElementRef.current && !domElementRef.current.contains(event.target)) {
@@ -100,18 +97,19 @@ function ManyInputComp({props}){
                   style={{
                     display: isGenreVisible ? 'block':'none',
                   }}>
-                {
-                  genreList.filter( genre =>{
-                    return genre.toLowerCase().includes(searchGenre.toLowerCase())
-                  }).map( (item,index) =>(
-                    <div key={index} className='label-wrapper'>
-                      <input type="checkbox" style={{appearance:'none'}} name="item" id={item} value={item} 
-                          checked={genre.includes(item)? true : false} readOnly/>
-                      <label className="label" htmlFor={item} data-value={item} onClick={handleGenreClick}>{item}</label>
-                    </div>
-                  ) )
-                }
-            </div>
+                    
+                  {
+                    genreList.filter( genre =>{
+                      return genre.toLowerCase().includes(searchGenre.toLowerCase())
+                    }).map( (item,index) =>(
+                      <div key={index} className='label-wrapper'>
+                        <input type="checkbox" style={{appearance:'none'}} name="item" id={item} value={item}
+                            checked={genre.includes(item)? true : false} readOnly/>
+                        <label className="label" htmlFor={item} data-value={item} onClick={handleGenreClick}>{item}</label>
+                      </div>
+                    ) )
+                  }
+                </div>
           }
       </div>
     )
@@ -137,7 +135,6 @@ function ManyInputComp({props}){
         }else
           setFormat([...format,newFormat]);
         setFormatVisible(prev => !prev);
-        // console.log(newFormat)
     }
     const handleFormatVisible = ()=> {
       setFormatVisible(prev=> !prev);
@@ -156,7 +153,6 @@ function ManyInputComp({props}){
         window.removeEventListener('click', handleOutsideClick);
       };
     }, []);
-    // const [format,isFormatVisible,handleFormatVisible,formatList,searchFormat,handleFormatSelect,setSearchFormat]=formatProps;
 
     return (
       <div className={`Format-input`} onClick={handleFormatVisible} ref={domElementRef}>
@@ -167,68 +163,26 @@ function ManyInputComp({props}){
                             style={{
                               display: isFormatVisible ? 'block' : 'none',
                             }}>
-                        {
-                          formatList.filter(({value,name}) => {
-                            return name.toLowerCase().includes(searchFormat.toLowerCase())
-                          }).map( ({value,name},index) =>(
-                            <div key={index} className='label-wrapper'>
-                              <input type="checkbox" name="format" id={value} value={value}
-                                      checked={format.includes(value)? true: false} readOnly/>
-                              <label className="label" htmlFor={value} data-value={value}  onClick={handleFormatSelect}>{name}</label>
-                            </div>
-                          ) )
-                        }
+                          {
+                            formatList.filter(({value,name}) => {
+                              return name.toLowerCase().includes(searchFormat.toLowerCase())
+                            }).map( ({value,name},index) =>(
+                              <div key={index} className='label-wrapper'>
+                                <input type="checkbox" name="format" id={value} value={value}
+                                        checked={format.includes(value)? true: false} readOnly/>
+                                <label className="label" htmlFor={value} data-value={value}  onClick={handleFormatSelect}>{name}</label>
+                              </div>
+                            ) )
+                          }
                     </div>}
                 </div>
               
     )
   }
   
-  
-  // function OldYearInput({year,setYearVisible,isYearVisible,yearList,setYear}) {
-  //   return (
-  //               <div className="SeasonYear-input" onClick={()=> setYearVisible(!isYearVisible)}>
-  //                       { !year  && <span className='ip-placeholder'  >Year</span>}
-  //                       {year && 
-  //                           <span 
-  //                               style={{
-  //                                 color:'rgb(46, 198, 91)',
-  //                                 fontSize:'0.85em'
-  //                               }} 
-                                
-  //                           >
-  //                               {year}
-  //                           </span>
-  //                       }
-  //                       { !isYearVisible && <div className="angle-down" >
-  //                         <i className="fa-solid fa-angle-down" ></i>
-  //                       </div>
-  //                       }
-  //                       { isYearVisible && <div className="angle-down" >
-  //                           <i className="fa-solid fa-xmark"></i>
-  //                         </div>
-  //                       }   
-  //                       <div className="options tooltip"
-  //                             style={{
-  //                               display: isYearVisible ? 'block':'none',
-  //                             }}>
-  //                         {
-  //                           yearList.map( (year) =>(
-  //                             <div key={year} className='label-wrapper'>
-  //                               {/* <input type="radio" style={{display:'none'}} name="year" id={year} value={year} onClick={handleYearClick}/>
-  //                               <label htmlFor={year} >{year}</label> */}
-  //                               <label className="label" onClick={()=>{ setYear(year);}}>{year}</label>
-  //                             </div>
-  //                           ) )
-  //                         }
-  //                   </div>
-  //                 </div>
-  //   )
-  // }
-  
+
   function YearSeasonInput({props,className}) {
     const [Input,setInputVisible,isInputVisible,inputList,setInput,placeholder]=props;
-    // console.log(Input,setInputVisible,isInputVisible,inputList,setInput,placeholder)
     const YearSeasonRef=useRef();
     const handleOutsideClick = (event) => {
       if (YearSeasonRef.current && !YearSeasonRef.current.contains(event.target)) {
@@ -279,8 +233,6 @@ function ManyInputComp({props}){
                           {
                             inputList.map( (item,index) =>(
                               <div key={index} className='label-wrapper'>
-                                {/* <input type="radio" style={{display:'none'}} name="year" id={year} value={year} onClick={handleYearClick}/>
-                                <label htmlFor={year} >{year}</label> */}
                                 <label className="label" onClick={()=>{ setInput(item);}}>
                                     {TitleCase(item.toString().replace(/_/g, ' '))}
                                 </label>
@@ -292,40 +244,6 @@ function ManyInputComp({props}){
     )
   }
   
-  // function OldSeasonInput({season,seasonList,setSeasonVisible,isSeasonVisible,setSeason}) {
-  //   return (
-  //         <div className="Season-input" onClick={()=> setSeasonVisible(!isSeasonVisible)}>
-  //             { !season  && <span className='ip-placeholder'>Season</span>}
-  //             {season && <>
-  //                 <span 
-  //                     style={{
-  //                       color:'rgb(46, 198, 91)'
-  //                     }}
-  //                     onClick={()=> setSeasonVisible(!isSeasonVisible)}
-  //                     >{season}</span>
-  //                 <div className="angle-down" onClick={()=>{ setSeason(undefined)}}>
-  //                     <i className="fa-solid fa-xmark"></i>
-  //               </div>
-  //               </>
-  //             }
-  //             { !season && <div className="angle-down" onClick={()=> setSeasonVisible(!isSeasonVisible)}>
-  //               <i className="fa-solid fa-angle-down" ></i>
-  //             </div>
-  //             }
-              
-  //             {isSeasonVisible && <div className="options tooltip">
-  //                 {
-  //                   seasonList.map( (season) =>(
-  //                     <div key={season} className='label-wrapper'>
-  //                       <label className="label" onClick={()=>{ setSeason(season)}}>{season}</label>
-  //                     </div>
-  //                   ) )
-  //                 }
-  //               </div>
-  //             }
-  //          </div>
-  //   )
-  // }
   function SingleInputComp({props,className}){
       const [Input,setInputVisible,isInputVisible,inputList,setInput]=props;
       const YearSeasonRef=useRef();
@@ -374,8 +292,6 @@ function ManyInputComp({props}){
                           {
                             inputList.map( (item,index) =>(
                               <div key={index} className='label-wrapper'>
-                                {/* <input type="radio" style={{display:'none'}} name="year" id={year} value={year} onClick={handleYearClick}/>
-                                <label htmlFor={year} >{year}</label> */}
                                 <label 
                                       className={Input===item ? "label active-option" : "label"} 
                                       onClick={()=>{ setInput(item)}}>
@@ -462,5 +378,5 @@ function ManyInputComp({props}){
             />
   }
   
-  export {NamedInput,FormatInput,GenreInput,YearInput,SeasonInput,YearSeasonInput,SourceInput,StatusInput}
+  export {NamedInput,FormatInput,GenreInput,YearInput,SeasonInput,SourceInput,StatusInput}
   

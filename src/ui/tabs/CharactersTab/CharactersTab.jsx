@@ -6,6 +6,7 @@ import SelectDemo from "../../SelectDemo";
 import { useState } from "react";
 import { getCharacterDetails } from "../../../utility/queries"
 import { useQuery } from "@apollo/client";
+import { FetchError, NoResults } from "../../../components/Error";
 
 function ImageComponent({ src, alt }) {
   return (
@@ -62,9 +63,10 @@ const CharactersTab = ({ id }) => {
         <Loader />
       </>
     );
-  if (error) return <p>Error : {error.message}</p>;
+  if (error) return <FetchError msg={error.message} />
 
   const characters = data.Page.media[0].characters;
+  if (characters.length == 0) return <NoResults />;
 
   const fetchMoreCharacterData = () => {
     try {

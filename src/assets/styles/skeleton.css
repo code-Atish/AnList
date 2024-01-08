@@ -56,19 +56,13 @@
 .loading-wrapper .studio{ width:45%; }
 @keyframes loading {
    0%{
-    /* background-position-x: 0%; */
-    background:var(--skeleton-gray);
     background:#CDD7E1;
    }
    50%{
-    /* background-position-x: -200%; */
-    background:#f2f4f9;
-    background: #dfe1e6;
     background:#DDE7EE;
 
    }
    100%{
-    background:var(--skeleton-gray);
     background:#CDD7E1;
    }
 }

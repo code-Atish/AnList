@@ -12,6 +12,7 @@ query getAnime($page: Int, $perPage: Int,$search:String,$sort:[MediaSort],$seaso
       season
       seasonYear
       episodes
+      duration
       format
       meanScore
       genres

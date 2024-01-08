@@ -1,10 +1,11 @@
 import { useQuery } from "@apollo/client";
 import Skeleton, { InfoCardSkeleton, SkeletonBody } from "./Skeleton";
-import { TitleCase, secondsToDhms, timeUntilAiring } from "../utility/utilityFunctions";
+import { TitleCase, calculateDuration, secondsToDhms, timeUntilAiring } from "../utility/utilityFunctions";
 import { getAnime } from "../utility/queries";
 import { Link, Navigate, redirect, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { modifySortText, modifySortValue } from "../store/sort-slice";
+import { FetchError, NoResults } from "./Error";
 
 function findSequel(relations) {
   const sequelTo = relations.filter(
@@ -263,7 +264,7 @@ function ListStructure({
                       "TBA"}{" "}
                   </div>
                   {data.meanScore && (
-                    <div className="rating">😊&nbsp;{data.meanScore}%</div>
+                    <div className="rating"><i className="fa-regular fa-face-smile"></i>&nbsp;{data.meanScore}%</div>
                   )}
                 </div>
                 <div className="middle-row">
@@ -278,7 +279,7 @@ function ListStructure({
                     {data.episodes && (
                       <>
                         <span style={{ padding: "0 2px" }}>|</span>
-                        <span>{data.episodes} episodes</span>
+                        <span>{(data.format=='MOVIE' && data.duration) ? calculateDuration(Number(data.duration)) : `${data.episodes} Episodes`}</span>
                       </>
                     )}
                   </div>
@@ -353,8 +354,9 @@ export default function DisplayTrending({ sortCriteria, title }) {
   const { loading, data, error } = MakeRequest(variables, getAnime);
 
   if (loading) return <Skeleton title={title} length={6} />;
-  if (error) return <p>Error : {error.message}</p>;
+  if (error) return <FetchError msg={error.message} />;
   const animeList = Array.from(data.Page.media);
+  if (animeList.length == 0) return <NoResults />;
   return (
     <ListStructure
       animeList={animeList}

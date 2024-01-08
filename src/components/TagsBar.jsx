@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   modifySeason,
   modifySource,
@@ -14,66 +14,56 @@ import {
   modifySortVisibility,
 } from "../store/sort-slice";
 import DisplaySearch from "./searchAnime";
-import { useNavigate, useParams } from "react-router-dom";
 import { GridIcon } from "@radix-ui/react-icons";
 
-const TagsBar = () => {
-  // let {filterOptions} =useParams();
-  // filterOptions=filterOptions.split(',').filter(item => item!='');
+
+
+
+const optionsObject = {
+  POPULARITY_DESC: "Popularity",
+  TRENDING_DESC: "Trending",
+  SCORE_DESC: "Average Score",
+  FAVOURITES_DESC: "Favorites",
+  EPISODES_DESC: "Episode",
+  SEARCH_MATCH: "Search Match",
+  START_DATE_DESC: "Latest Release",
+};
+const seasonList = ["WINTER", "SPRING", "SUMMER", "FALL"];
+const sourceList = [
+  "ORIGINAL",
+  "MANGA",
+  "LIGHT_NOVEL",
+  "VISUAL_NOVEL",
+  "VIDEO_GAME",
+  "NOVEL",
+  "DOUJINSHI",
+  "ANIME",
+  "WEB_NOVEL",
+  "LIVE_ACTION",
+  "GAME",
+  "COMIC",
+  "MULTIMEDIA_PROJECT",
+  "PICTURE_BOOK",
+  "OTHER",
+];
+const statusList = ["FINISHED", "RELEASING", "NOT_YET_RELEASED", "CANCELLED"];
+
+const TagsBar = ({filterOptions}) => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const domElementRef = useRef();
   const sortText = useSelector((state) => state.sortCriteria.sortText);
   const sortValue = useSelector((state) => state.sortCriteria.sortValue);
   const format = useSelector((state) => state.manyInput.format);
   const genre = useSelector((state) => state.manyInput.genre);
-  const name = useSelector((state) => state.manyInput.name);
-  const year = useSelector((state) => state.singleInput.year);
-  const season = useSelector((state) => state.singleInput.season);
-  const source = useSelector((state) => state.singleInput.source);
-  const status = useSelector((state) => state.singleInput.status);
   const isVisible = useSelector((state) => state.sortCriteria.isVisible);
 
   const [version, setVersion] = useState(false);
-  const filterOptions = [name, format, year, season, genre, status, source].map(
-    (ele) => {
-      if (ele == "" || ele == []) return undefined;
-      else return ele;
-    }
-  );
   const trimOptions = filterOptions.filter(
     (ele) => ele !== undefined && !Array.isArray(ele)
   );
   const clearVisibility =
     trimOptions.length + format.length + genre.length >= 2;
-  const optionsObject = {
-    POPULARITY_DESC: "Popularity",
-    TRENDING_DESC: "Trending",
-    SCORE_DESC: "Average Score",
-    FAVOURITES_DESC: "Favorites",
-    EPISODES_DESC: "Episode",
-    SEARCH_MATCH: "Search Match",
-    START_DATE_DESC: "Latest Release",
-  };
-  const seasonList = ["WINTER", "SPRING", "SUMMER", "FALL"];
-  const sourceList = [
-    "ORIGINAL",
-    "MANGA",
-    "LIGHT_NOVEL",
-    "VISUAL_NOVEL",
-    "VIDEO_GAME",
-    "NOVEL",
-    "DOUJINSHI",
-    "ANIME",
-    "WEB_NOVEL",
-    "LIVE_ACTION",
-    "GAME",
-    "COMIC",
-    "MULTIMEDIA_PROJECT",
-    "PICTURE_BOOK",
-    "OTHER",
-  ];
-  const statusList = ["FINISHED", "RELEASING", "NOT_YET_RELEASED", "CANCELLED"];
+
 
   const setGenre = (value) => {
     dispatch(modifyGenre(value));

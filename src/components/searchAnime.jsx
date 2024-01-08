@@ -2,13 +2,12 @@ import React from "react";
 import { useQuery } from "@apollo/client";
 import { getAnime } from "../utility/queries";
 import Skeleton, { InfoCardSkeleton } from "./Skeleton";
-import { secondsToDhms, truncateSentence } from "../utility/utilityFunctions";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useState } from "react";
-import "../assets/styles/app.css";
+import "../assets/styles/App.css";
 import "../assets/styles/skeleton.css";
 import { CardStructure, ListStructure } from "./Trending";
-import TopAnime from "./TopAnime";
+import { FetchError, NoResults } from "./Error";
 
 function isElementOutsideViewport(index) {
   const el = document.getElementsByClassName("tooltip")[index];
@@ -58,7 +57,7 @@ const DisplaySearchData = ({ animeList, hasMore }) => {
   );
 };
 
-function DisplaySearch({ sortCriteria, filterOptions, version ,TopAnime }) {
+function DisplaySearch({ sortCriteria, filterOptions, version, TopAnime }) {
   const controller = new AbortController();
   const { signal } = controller;
   sortCriteria = sortCriteria || "POPULARITY_DESC";
@@ -120,9 +119,10 @@ function DisplaySearch({ sortCriteria, filterOptions, version ,TopAnime }) {
 
   if (loading)
     return version ? <InfoCardSkeleton length={4} /> : <Skeleton length={5} />;
-  if (error) return <p>Error : {error.message}</p>;
+  if (error) return <FetchError msg={error.message} />;
 
   const animeList = data?.Page.media || [];
+  if (animeList.length == 0) return <NoResults />;
   return (
     animeList.length > 0 && (
       <InfiniteScroll

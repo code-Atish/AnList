@@ -25,6 +25,7 @@ import Details from "./pages/Details.jsx";
 // import DisplaySearch from "./searchAnime.jsx";
 // import Landing from "./Landing.jsx";
 import TrendingPage from "./pages/TrendingPage.jsx";
+import { ErrorPage } from "./components/Error.jsx";
 
 
 const customMergeFunction = (existing, incoming) => {
@@ -81,8 +82,12 @@ const router = createBrowserRouter([
       //           filterOptions={Array(7).fill(undefined)}
       //           />
       element:<TrendingPage />
-  }
+  },
+  {
+    path:'*',
+    element:<ErrorPage />
 
+  }
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(

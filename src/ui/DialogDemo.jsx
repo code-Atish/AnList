@@ -7,15 +7,13 @@ import {
   SeasonInput,
   SourceInput,
   StatusInput,
-  YearInput,
-  YearSeasonInput,
+  YearInput
 } from "../components/InputComponent/InputComponent";
 
 const DialogDemo = () => {
   return (
     <Dialog.Root>
       <Dialog.Trigger asChild>
-        {/* <button className="Button violet">Edit profile</button> */}
         <div className="extra_inputs">
           <i className="fa-solid fa-bars"></i>
         </div>

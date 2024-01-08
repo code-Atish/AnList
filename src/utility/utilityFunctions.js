@@ -56,15 +56,6 @@ function timeUntilAiring(data){
 
   return airingTime;
 }
-  function truncateSentence(sentence,length=45) {
-    const maxLength=length;
-    if (sentence?.length <= maxLength) {
-      return sentence;
-    } else {
-      // Truncate the sentence and add "..." at the end
-      return sentence?.substring(0, maxLength) + "...";
-    }
-  }
 
   function capitalizeString(uppercaseString) {
     // Convert the first character to uppercase and concatenate it with the rest of the string in lowercase
@@ -76,4 +67,20 @@ function timeUntilAiring(data){
         return word.charAt(0).toUpperCase() + word.substr(1).toLowerCase().replace(/_/g,' ');
     });
 }
-  export  {timeUntilAiring,secondsToDhms,truncateSentence,capitalizeString,nextEpCounter,TitleCase} 
+export function calculateDuration(minutes) {
+  if (typeof minutes !== 'number' || minutes < 0) {
+      return 'Invalid input';
+  }
+
+  const hours = Math.floor(minutes / 60);
+  const remainingMinutes = minutes % 60;
+
+  const hoursText = hours > 0 ? `${hours} ${hours === 1 ? 'Hour' : 'Hours'}` : '';
+  const minutesText = remainingMinutes > 0 ? `${remainingMinutes} ${remainingMinutes === 1 ? 'Min' : 'Mins'}` : '';
+
+  // Combine hours and minutes for a formatted duration
+  const durationText = [hoursText, minutesText].filter(Boolean).join(', ');
+
+  return durationText || '0 minutes';
+}
+  export  {timeUntilAiring,secondsToDhms,capitalizeString,nextEpCounter,TitleCase} 

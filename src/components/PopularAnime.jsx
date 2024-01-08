@@ -1,10 +1,11 @@
 import { useQuery } from "@apollo/client";
 import { getAnime } from "../utility/queries";
 import Skeleton from "./Skeleton";
-import "../assets/styles/app.css";
+import "../assets/styles/App.css";
 import { useDispatch, useSelector } from "react-redux";
 import { modifySeason, modifyYear } from "../store/singleInput-slice";
 import { ListStructure } from "./Trending";
+import { FetchError, NoResults } from "./Error";
 
 function getCurrentSeasonAndYear(nextSeason) {
   const now = new Date();
@@ -62,9 +63,9 @@ function PopularAnime({ sortCriteria, title, nextSeason }) {
     },
   });
   if (loading) return <Skeleton title={title} length={6} />;
-  if (error) return <p>Error : {error.message}</p>;
+  if (error) return <FetchError msg={error.message} />
   const animeList = Array.from(data.Page.media);
-
+  if (animeList.length == 0) return <NoResults />;
   return (
     <ListStructure
       animeList={animeList}
