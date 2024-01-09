@@ -15,7 +15,7 @@ const DialogDemo = () => {
     <Dialog.Root>
       <Dialog.Trigger asChild>
         <div className="extra_inputs">
-          <i className="fa-solid fa-bars"></i>
+          <i className="fa-solid fa-filter"></i>
         </div>
       </Dialog.Trigger>
       <Dialog.Portal>

@@ -118,7 +118,7 @@ function DisplaySearch({ sortCriteria, filterOptions, version, TopAnime }) {
   // }, []);
 
   if (loading)
-    return version ? <InfoCardSkeleton length={4} /> : <Skeleton length={5} />;
+    return version ? <InfoCardSkeleton length={4} offset={0}/> : <Skeleton length={6} />;
   if (error) return <FetchError msg={error.message} />;
 
   const animeList = data?.Page.media || [];

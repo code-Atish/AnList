@@ -1,5 +1,5 @@
 import { useQuery } from "@apollo/client";
-import Skeleton, { InfoCardSkeleton, SkeletonBody } from "./Skeleton";
+import Skeleton, { InfoCardSkeleton, InfoCardSkeletonBody, SkeletonBody } from "./Skeleton";
 import { TitleCase, calculateDuration, secondsToDhms, timeUntilAiring } from "../utility/utilityFunctions";
 import { getAnime } from "../utility/queries";
 import { Link, Navigate, redirect, useNavigate } from "react-router-dom";
@@ -25,16 +25,13 @@ function extractHashTitles(inputString) {
   // const hashTitles = (inputString.match(regex) || []).map((title) =>
   //   title.slice(1)
   // );
-  const hashTitles = inputString.split(" ").map((ele) => ele.replace("#", ""));
+  const hashTitles = inputString.split(" ").slice(0,2).map((ele) => ele.replace("#", ""));
 
   // Returning the array of hash titles without '#'
   return hashTitles;
 }
 
 export function CardStructure({ animeList, hasMore,TopAnime }) {
-  // console.log(animeList[0].nextAiringEpisode.episode)
-  const sequeltTo = animeList;
-  console.log(animeList);
   return (
     <>
       <div className="info-card-list">
@@ -70,7 +67,7 @@ export function CardStructure({ animeList, hasMore,TopAnime }) {
                   onLoad={(e) => (e.target.style.opacity = 1)}
                 />
                 <div className="title-studio">
-                  <div className="anime-title">
+                  <div className="anime-title line_clamp">
                     {data.title.english || data.title.romaji}
                   </div>
                   <div className="studio-title">
@@ -183,7 +180,7 @@ export function CardStructure({ animeList, hasMore,TopAnime }) {
                 dangerouslySetInnerHTML={{ __html: data.description }}
               ></div>
               <div className="bottom-genre">
-                {data.genres.slice(0, 3).map((genre, index) => (
+                {data.genres.map((genre, index) => (
                   <span className="genre" key={index}>
                     {genre}{" "}
                   </span>
@@ -192,8 +189,8 @@ export function CardStructure({ animeList, hasMore,TopAnime }) {
             </div>
           </div>
         ))}
+      {hasMore && <InfoCardSkeletonBody length={2} offset={animeList.length} />}
       </div>
-      {hasMore && <InfoCardSkeleton length={2} offset={animeList.length} />}
     </>
   );
 }

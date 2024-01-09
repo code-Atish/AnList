@@ -203,17 +203,19 @@ const TagsBar = ({filterOptions}) => {
             />
           </div>
           <div className="sort-by-trend">
-            <i className="fa-solid fa-sort"></i>
             <div
               name=""
               className="sort-by"
               onClick={() => setIsVisible(!isVisible)}
               ref={domElementRef}
-            >
+            >            
+            <i className="fa-solid fa-sort"></i>
               {sortText}
             </div>
             {isVisible && (
-              <div className="options tooltip">
+              <div className="options tooltip"
+                style={{display : isVisible ? 'block' : 'none'  }}
+              >
                 {Object.entries(optionsObject).map(([value, label]) => (
                   <option key={value} value={value} onClick={handleSelect}>
                     {label}

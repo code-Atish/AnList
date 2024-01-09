@@ -7,6 +7,11 @@
 }
 .anime-cont-wrapper{
   display: flex;
+  gap:5px;
+}
+.anime-cont:hover{
+  scale:1.01;
+  box-shadow:0px 4px 20px -20px #01342b
 }
 .anime-cont{
   display:flex;
@@ -16,7 +21,7 @@
   background:white;
   border-radius: 5px;
   padding:10px;
-  box-shadow:0px 4px 20px -20px #01342b
+  transition: all 200ms linear;
 }
 .col-0{
   width:50px;

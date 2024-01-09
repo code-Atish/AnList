@@ -313,5 +313,7 @@ button {
     display:unset;
   }
 }
-
+@media only screen and (max-width: 550px) {
+.extra_inputs{ font-size: 1em; padding : 0 10px}
+}
 /* ----------------------------------End----------------------------------------- */

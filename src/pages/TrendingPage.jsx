@@ -33,7 +33,7 @@ const TrendingPage = () => {
       </div>
       <div className="trending-page-wrapper">
         <div className="max-width">
-          <div className="margin">
+          <div className="margin card-margin">
             <div className="search-header">
               <h1>{title}</h1>
               <div className="sort-by-wrapper">

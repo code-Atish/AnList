@@ -24,11 +24,11 @@ return (
         </div>
     </>    
 }
-export function InfoCardSkeleton({length}){
+
+export function InfoCardSkeletonBody({length,offset}){
     return (<>
-        <div className="info-card-list loading-wrapper">
-        {Array(length||2).fill(1).map((data,index) => (
-            <div className="info-card" key={index}>
+    {Array(length||2).fill(1).map((data,index) => (
+            <div className="info-card loading-wrapper" key={index+offset}>
                 <div className="info-PV-wrapper" >
                     <div className="info-PV"></div>
                 </div>
@@ -39,8 +39,13 @@ export function InfoCardSkeleton({length}){
 
                 </div>
             </div>
-        ))}
-        </div>
+        ))}</>)
+}
+export function InfoCardSkeleton({length,offset}){
+    return (<>
+        <div className="info-card-list loading-wrapper">
+            <InfoCardSkeletonBody length={length} offset={offset}/>
+        </div> 
     </>)
 }
 export default Skeleton
