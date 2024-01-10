@@ -1,4 +1,5 @@
 import React, { useRef, useState } from "react";
+import PropTypes from 'prop-types';
 import {
   modifySeason,
   modifySource,
@@ -102,7 +103,7 @@ const TagsBar = ({filterOptions}) => {
     return () => {
       window.removeEventListener("click", handleOutsideClick);
     };
-  }, []);
+  });
   return (
     <>
       <div className="search-header">
@@ -235,6 +236,7 @@ const TagsBar = ({filterOptions}) => {
   );
 };
 
+
 function AppliedFilters({ ele, removeFunc }) {
   return (
     <div
@@ -271,4 +273,20 @@ function AppliedArrayFilters({ inputArray, setInput }) {
     ))
   );
 }
+
+
+TagsBar.propTypes = {
+  filterOptions: PropTypes.array,
+};
+AppliedFilters.propTypes = {
+  ele: PropTypes.any,
+  removeFunc: PropTypes.func
+};
+AppliedArrayFilters.propTypes = {
+  inputArray: PropTypes.array,
+  setInput: PropTypes.func
+};
+
+
+
 export default TagsBar;

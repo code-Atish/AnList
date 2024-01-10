@@ -1,14 +1,12 @@
-import { createContext, useEffect } from "react";
+import { createContext } from "react";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import { getDetails } from "../utility/queries";
 import { TitleCase, nextEpCounter } from "../utility/utilityFunctions";
-import TabsDemo from "../ui/TabsDemo";
 import { Loader } from "../ui/tabs/CharactersTab/CharactersTab";
-import "../assets/styles/details.css";
-import { errorCodes } from "@apollo/client/invariantErrorCodes";
-import { MakeRequest } from "../components/Trending";
 import { FetchError, NoResults } from "../components/Error";
+import "../assets/styles/details.css";
+import TabsComponent from "../ui/Tabs";
 
 const shortMonthNames = [
   "",
@@ -25,22 +23,24 @@ const shortMonthNames = [
   "Nov",
   "Dec",
 ];
-function getStartDate(startDateObj,data){
-  let startDate=''
-  if(startDateObj.month) startDate+=shortMonthNames[startDateObj.month]
-  if (startDateObj.day) startDate+=` ${startDateObj.day},`
-  if (startDateObj.year) startDate+=` ${startDateObj.year}`
-  return startDate || 'TBA'
+function getStartDate(startDateObj) {
+  let startDate = "";
+  if (startDateObj.month) startDate += shortMonthNames[startDateObj.month];
+  if (startDateObj.day) startDate += ` ${startDateObj.day},`;
+  if (startDateObj.year) startDate += ` ${startDateObj.year}`;
+  return startDate || "TBA";
 }
 
-function getSideBarDetails(Data){
+function getSideBarDetails(Data) {
   const sidebarDetails = {
     Format: Data.format,
     Episodes: Data.episodes,
-    "Episode Duration": Data.duration ? `${Data.duration} Mins`: null,
+    "Episode Duration": Data.duration ? `${Data.duration} Mins` : null,
     Status: TitleCase(Data.status),
-    "Start Date": getStartDate(Data.startDate,Data),
-    Season: Data.season ? `${TitleCase(Data.season)} ${Data.seasonYear}` : undefined,
+    "Start Date": getStartDate(Data.startDate),
+    Season: Data.season
+      ? `${TitleCase(Data.season)} ${Data.seasonYear}`
+      : undefined,
     "Average Score": Data.averageScore ? `${Data.averageScore}%` : null,
     "Mean Score": Data.meanScore ? `${Data.meanScore}%` : null,
     Popularity: Data.popularity,
@@ -82,13 +82,12 @@ function Details() {
         <Loader />
       </div>
     );
-  if (error) return <FetchError msg={error.message} />
+  if (error) return <FetchError msg={error.message} />;
   const Data = data.Page.media[0];
   const filteredRakings = Array.from(Data.rankings).slice(0, 2);
   const contextValue = { data: Data, fetchMore: fetchMore };
-  const sidebarDetails=getSideBarDetails(Data);
+  const sidebarDetails = getSideBarDetails(Data);
   if (Data.length == 0) return <NoResults />;
-  
 
   return (
     <div>
@@ -108,12 +107,7 @@ function Details() {
         <div className="max_width">
           <div className="margin">
             <div className="hero__section">
-              <div
-                className="hero__image__container"
-                // style={{
-                //     '--offsetY':Data.bannerImage?'-45%':'0%',
-                // }}
-              >
+              <div className="hero__image__container">
                 <div className="hero_image_content flex">
                   <div
                     className="PV_wrapper"
@@ -123,7 +117,6 @@ function Details() {
                         : "0%",
                       backgroundColor: Data.coverImage.color,
                     }}
-                    // style={{backgroundColor:Data.coverImage.color}}
                   >
                     <img
                       className="PV"
@@ -160,14 +153,6 @@ function Details() {
                         </span>
                       </div>
                     ))}
-                    {/* <div className='rankings'>
-                                                  <i class="fa-solid fa-star" style={{color:'gold',marginRight:'7px'}}></i>
-                                                  #{filteredRakings[0].rank} {filteredRakings[0].context}
-                                              </div>
-                                              <div className='rankings'>
-                                                  <i class="fa-solid fa-heart" style={{color:'red',marginRight:'7px'}}></i>
-                                                  #{filteredRakings[1].rank} {filteredRakings[1].context}
-                                              </div> */}
                   </div>
                 </div>
               </div>
@@ -180,7 +165,6 @@ function Details() {
                   dangerouslySetInnerHTML={{ __html: Data.description }}
                 ></div>
               </div>
-              {/* <div className="tabs"></div> */}
             </div>
           </div>
         </div>
@@ -212,7 +196,7 @@ function Details() {
             </div>
             <div className="main_details_wrapper">
               <MyContext.Provider value={contextValue}>
-                <TabsDemo />
+                <TabsComponent />
               </MyContext.Provider>
             </div>
           </div>

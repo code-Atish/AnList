@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import  { useContext } from "react";
 import { MyContext } from "../../../pages/Details";
 
 function ExtLinks() {
@@ -18,6 +18,7 @@ function ExtLinks() {
             <a
               href={url}
               target="_blank"
+              rel="noreferrer"
               style={{ textDecoration: "none" }}
               key={index}
             >

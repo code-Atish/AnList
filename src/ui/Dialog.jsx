@@ -1,4 +1,3 @@
-import React from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 import { Cross2Icon } from "@radix-ui/react-icons";
 import {
@@ -10,7 +9,7 @@ import {
   YearInput
 } from "../components/InputComponent/InputComponent";
 
-const DialogDemo = () => {
+const DialogComponent = () => {
   return (
     <Dialog.Root>
       <Dialog.Trigger asChild>
@@ -48,4 +47,4 @@ const DialogDemo = () => {
     </Dialog.Root>
   );
 };
-export default DialogDemo;
+export default DialogComponent;

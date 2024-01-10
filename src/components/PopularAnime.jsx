@@ -1,19 +1,19 @@
 import { useQuery } from "@apollo/client";
 import { getAnime } from "../utility/queries";
+import PropTypes from 'prop-types';
 import Skeleton from "./Skeleton";
-import "../assets/styles/App.css";
 import { useDispatch, useSelector } from "react-redux";
 import { modifySeason, modifyYear } from "../store/singleInput-slice";
 import { ListStructure } from "./Trending";
 import { FetchError, NoResults } from "./Error";
+import "../assets/styles/App.css";
 
 function getCurrentSeasonAndYear(nextSeason) {
   const now = new Date();
   let year = now.getFullYear();
   let month = now.getMonth() + 1; // Months are 0-based, so we add 1.
   month = month % 12;
-  month == 0 ? (year = year + 1) : (year = year);
-  //   console.log(month,year)
+  year += month == 0 ? 1 : 0;
   // Define the starting and ending months for each season.
   const seasons = [
     { name: "WINTER", startMonth: 0, endMonth: 2 },
@@ -26,22 +26,15 @@ function getCurrentSeasonAndYear(nextSeason) {
   for (let i = 0; i < seasons.length; i++) {
     let season = seasons[i];
     if (month >= season.startMonth && month <= season.endMonth) {
-      //   (nextSeason)? season=seasons[(i+1)%4].name:season=seasons[i].name
       if (nextSeason) {
         if (season.name == "FALL") {
           return [seasons[(i + 1) % 4].name, year + 1];
         }
         return [seasons[(i + 1) % 4].name, year];
       }
-      // if(season==='WINTER') {
-      //   year=year+1
-      // }
-      return [season.name, year];
+     return [season.name, year];
     }
   }
-
-  // // If the current season is Winter, return the next season (Spring of the next year).
-  // return `Spring ${year + 1}`;
 }
 
 function PopularAnime({ sortCriteria, title, nextSeason }) {
@@ -74,5 +67,13 @@ function PopularAnime({ sortCriteria, title, nextSeason }) {
     />
   );
 }
+
+
+PopularAnime.propTypes = {
+  sortCriteria: PropTypes.string,
+  title: PropTypes.string,
+  nextSeason: PropTypes.bool,
+};
+
 
 export default PopularAnime;

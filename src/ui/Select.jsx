@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import * as Select from '@radix-ui/react-select';
 import classnames from 'classnames';
 import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from '@radix-ui/react-icons';
@@ -6,8 +8,7 @@ import { TitleCase } from '../utility/utilityFunctions';
 import '../assets/styles/select.css';
 
 
-const SelectDemo = ( { setVALanguage,languageRef,disabled } ) => {
- 
+const SelectComponent = ( { setVALanguage,languageRef,disabled } ) => {
   const languages = ['JAPANESE','ENGLISH', 'KOREAN', 'ITALIAN', 'SPANISH', 'PORTUGUESE', 'FRENCH', 'GERMAN', 'HEBREW', 'HUNGARIAN'];
   return (
         <div className="select_wrapper">
@@ -69,5 +70,17 @@ const SelectItem = React.forwardRef(({ children, className, ...props }, forwarde
     </Select.Item>
   );
 });
+SelectItem.displayName = 'SelectItem';
 
-export default SelectDemo;
+SelectComponent.propTypes = {
+  setVALanguage: PropTypes.func,
+  languageRef: PropTypes.shape({ current: PropTypes.string }),
+  disabled: PropTypes.bool,
+};
+
+SelectItem.propTypes = {
+  children: PropTypes.node,
+  className: PropTypes.string
+};
+
+export default SelectComponent;

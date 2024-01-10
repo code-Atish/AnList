@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import  { useContext } from "react";
 import * as Tabs from "@radix-ui/react-tabs";
 import "../assets/styles/details.css"
 import Relations from "./tabs/overViewTab/Relations";
@@ -9,7 +9,7 @@ import { CharactersTab } from "./tabs/CharactersTab/CharactersTab";
 import StaffTab from "./tabs/StaffTab/StaffTab";
 import { MyContext } from "../pages/Details";
 
-const TabsDemo = () => {
+const TabsComponent = () => {
   const { data } = useContext(MyContext);
   return (
     <Tabs.Root className="TabsRoot" defaultValue="tab1">
@@ -54,4 +54,4 @@ const TabsDemo = () => {
   );
 };
 
-export default TabsDemo;
+export default TabsComponent;

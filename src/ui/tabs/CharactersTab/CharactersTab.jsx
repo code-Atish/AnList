@@ -1,8 +1,9 @@
-import React, { useRef } from "react";
+import  { useRef } from "react";
+import PropTypes from 'prop-types';
 import { TitleCase } from "../../../utility/utilityFunctions";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { PropagateLoader } from "react-spinners";
-import SelectDemo from "../../SelectDemo";
+import SelectComponent from "../../Select";
 import { useState } from "react";
 import { getCharacterDetails } from "../../../utility/queries"
 import { useQuery } from "@apollo/client";
@@ -20,6 +21,12 @@ function ImageComponent({ src, alt }) {
     </div>
   );
 }
+
+ImageComponent.propTypes = {
+  src: PropTypes.string,
+  alt: PropTypes.string,
+};
+
 
 function Loader() {
   return (
@@ -55,7 +62,7 @@ const CharactersTab = ({ id }) => {
   if (loading)
     return (
       <>
-        <SelectDemo
+        <SelectComponent
           setVALanguage={setVALanguage}
           languageRef={languageRef}
           disabled={true}
@@ -110,7 +117,7 @@ const CharactersTab = ({ id }) => {
 
   return (
     <>
-      <SelectDemo
+      <SelectComponent
         setVALanguage={setVALanguage}
         languageRef={languageRef}
         disabled={false}
@@ -153,4 +160,7 @@ const CharactersTab = ({ id }) => {
   );
 };
 
+CharactersTab.propTypes = {
+  id: PropTypes.number
+};
 export { CharactersTab, ImageComponent, Loader };

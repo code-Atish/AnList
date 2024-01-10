@@ -1,4 +1,3 @@
-// src/features/year/yearSlice.js
 import { createSlice } from '@reduxjs/toolkit';
 
 const singleInputSlice = createSlice({

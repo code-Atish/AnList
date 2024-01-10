@@ -1,4 +1,3 @@
-// src/features/year/yearSlice.js
 import { createSlice } from '@reduxjs/toolkit';
 
 const manyInputSlice = createSlice({
@@ -9,13 +8,16 @@ const manyInputSlice = createSlice({
         genre: [],
         isGenreVisible: false,
         searchGenre: '',
+        searchFormat: '',
         name: '',
     },
     reducers: {
         modifySearchGenre: (state, action) => {
             state.searchGenre = action.payload;
         },
-
+        modifySearchFormat: (state, action) => {
+            state.searchFormat = action.payload;
+        },
         modifyGenre: (state, action) => {
             state.genre = action.payload
         },
@@ -30,10 +32,11 @@ const manyInputSlice = createSlice({
 });
 
 export const {
-    modifySearchGenre,
     modifyGenre,
     modifyFormat,
-    modifyName
+    modifyName,
+    modifySearchGenre,
+    modifySearchFormat
 } = manyInputSlice.actions;
 
 export default manyInputSlice.reducer;

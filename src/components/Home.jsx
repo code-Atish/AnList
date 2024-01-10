@@ -8,7 +8,6 @@ const Home = () => {
       <DisplayTrending
         sortCriteria={["TRENDING_DESC", "Trending"]}
         title="Trending"
-        // functions={[setSortValue,setSortText]}
       />
 
       <PopularAnime

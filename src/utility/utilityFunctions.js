@@ -1,4 +1,3 @@
-import { indigo } from "@radix-ui/colors";
 
 function calcSecondsToDhms(seconds){
   const days = Math.floor(seconds / 86400);
@@ -41,7 +40,6 @@ function nextEpCounter(data){
 }
 function timeUntilAiring(data){
   let seconds=data.timeUntilAiring;
-  let episode=data.episode;
   const [days,hours,minutes]=calcSecondsToDhms(seconds);
   let airingTime = ``;
   if (days !== 0) {

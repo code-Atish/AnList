@@ -1,6 +1,6 @@
-import React from "react";
-import "../assets/styles/Home.css";
+import PropTypes from 'prop-types';
 import { Link } from "react-router-dom";
+import "../assets/styles/Home.css";
 const NoResults = () => {
   return (
     <div className="no-results">
@@ -24,6 +24,9 @@ const FetchError = ({ msg }) => {
   );
 };
 
+FetchError.propTypes = {
+  msg: PropTypes.string.isRequired, // Example, assuming msg should be a required string
+}
 const ErrorPage = () => {
   return (
     <div className="max-width">

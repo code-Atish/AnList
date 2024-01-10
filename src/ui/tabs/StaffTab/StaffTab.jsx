@@ -1,7 +1,6 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { ImageComponent, Loader } from "../CharactersTab/CharactersTab";
 import { TitleCase } from "../../../utility/utilityFunctions";
-import { PropagateLoader } from "react-spinners";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { MyContext } from "../../../pages/Details";
 
@@ -10,7 +9,6 @@ const StaffTab = () => {
   const { data, fetchMore } = useContext(MyContext);
   const staff = data.staff;
   const fetchMoreStaffData = () => {
-    // setCharPageNumber(charPageNumber+1);
     fetchMore({
       variables: {
         staffPage: staff.pageInfo.currentPage + 1,

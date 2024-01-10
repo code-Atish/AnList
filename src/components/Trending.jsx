@@ -1,10 +1,17 @@
+import PropTypes from 'prop-types';
 import { useQuery } from "@apollo/client";
-import Skeleton, { InfoCardSkeleton, InfoCardSkeletonBody, SkeletonBody } from "./Skeleton";
-import { TitleCase, calculateDuration, secondsToDhms, timeUntilAiring } from "../utility/utilityFunctions";
+import Skeleton, {
+  InfoCardSkeletonBody,
+} from "./Skeleton";
+import {
+  TitleCase,
+  calculateDuration,
+  secondsToDhms,
+  timeUntilAiring,
+} from "../utility/utilityFunctions";
 import { getAnime } from "../utility/queries";
-import { Link, Navigate, redirect, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { modifySortText, modifySortValue } from "../store/sort-slice";
+import { Link, useNavigate } from "react-router-dom";
+import {  useSelector } from "react-redux";
 import { FetchError, NoResults } from "./Error";
 
 function findSequel(relations) {
@@ -18,45 +25,43 @@ function findSequel(relations) {
     : null;
 }
 function extractHashTitles(inputString) {
-  // Regular expression to match hashtags
-  // const regex = /#(\w+)/g;
-
-  // // Extracting hash titles using match
-  // const hashTitles = (inputString.match(regex) || []).map((title) =>
-  //   title.slice(1)
-  // );
-  const hashTitles = inputString.split(" ").slice(0,2).map((ele) => ele.replace("#", ""));
-
+  const hashTitles = inputString
+    .split(" ")
+    .slice(0, 2)
+    .map((ele) => ele.replace("#", ""));
   // Returning the array of hash titles without '#'
   return hashTitles;
 }
 
-export function CardStructure({ animeList, hasMore,TopAnime }) {
+export function CardStructure({ animeList, hasMore, TopAnime }) {
   return (
     <>
       <div className="info-card-list">
         {animeList.map((data, index) => (
           <div
             key={index}
-            // className="info-card"
-            data-rank={`#${index+1}`}
-            className={(TopAnime && index<100) ? "info-card anime-rank" : "info-card"}
+            data-rank={`#${index + 1}`}
+            className={
+              TopAnime && index < 100 ? "info-card anime-rank" : "info-card"
+            }
             style={{ "--bg-hover-color": data.coverImage.color }}
           >
             <Link to={`/details/${data.id}`}>
-              <div className="info-PV-wrapper"
-                onMouseOver={()=>{
-                  const ele=document.getElementsByClassName('banner-image')[0]
-                  if(ele) {
-                      ele.setAttribute('src',data.bannerImage || '')
-                      ele.style.opacity=0.2;
+              <div
+                className="info-PV-wrapper"
+                onMouseOver={() => {
+                  const ele =
+                    document.getElementsByClassName("banner-image")[0];
+                  if (ele) {
+                    ele.setAttribute("src", data.bannerImage || "");
+                    ele.style.opacity = 0.2;
                   }
                 }}
-                onMouseOut={()=>{
-                  const ele=document.getElementsByClassName('banner-image')[0]
-                  if(ele ) {
-                      // ele.setAttribute('src',daa)
-                      ele.style.opacity=0;
+                onMouseOut={() => {
+                  const ele =
+                    document.getElementsByClassName("banner-image")[0];
+                  if (ele) {
+                    ele.style.opacity = 0;
                   }
                 }}
               >
@@ -189,11 +194,20 @@ export function CardStructure({ animeList, hasMore,TopAnime }) {
             </div>
           </div>
         ))}
-      {hasMore && <InfoCardSkeletonBody length={2} offset={animeList.length} />}
+        {hasMore && (
+          <InfoCardSkeletonBody length={2} offset={animeList.length} />
+        )}
       </div>
     </>
   );
 }
+
+CardStructure.propTypes = {
+  animeList: PropTypes.array,
+  TopAnime: PropTypes.bool,
+  hasMore: PropTypes.bool
+};
+
 
 function ListStructure({
   handleView,
@@ -201,7 +215,7 @@ function ListStructure({
   title,
   searchComponent,
   hasMore,
-  TopAnime
+  TopAnime,
 }) {
   return (
     <>
@@ -219,25 +233,24 @@ function ListStructure({
               "--hover-color": data.coverImage.color,
             }}
             key={index}
-            onMouseOver={()=>{
-              const ele=document.getElementsByClassName('banner-image')[0]
-              if(ele && searchComponent) {
-                  ele.setAttribute('src',data.bannerImage || '')
-                  ele.style.opacity=0.2;
+            onMouseOver={() => {
+              const ele = document.getElementsByClassName("banner-image")[0];
+              if (ele && searchComponent) {
+                ele.setAttribute("src", data.bannerImage || "");
+                ele.style.opacity = 0.2;
               }
             }}
-            onMouseOut={()=>{
-              const ele=document.getElementsByClassName('banner-image')[0]
-              if(ele && searchComponent) {
-                  // ele.setAttribute('src',daa)
-                  ele.style.opacity=0;
+            onMouseOut={() => {
+              const ele = document.getElementsByClassName("banner-image")[0];
+              if (ele && searchComponent) {
+                ele.style.opacity = 0;
               }
             }}
           >
             <Link to={`/details/${data.id}`} style={{ textDecoration: "none" }}>
               <div
-                data-rank={`#${index+1}`}
-                className={(TopAnime && index<100) ? "card anime-rank" : "card"}
+                data-rank={`#${index + 1}`}
+                className={TopAnime && index < 100 ? "card anime-rank" : "card"}
                 style={{ backgroundColor: data.coverImage.color }}
               >
                 <img
@@ -250,7 +263,6 @@ function ListStructure({
                 <div className="info">
                   {data.title.english || data.title.romaji}
                 </div>
-                {/* <div className="studio"> </div> */}
               </div>
               <div className="tooltip clear-button">
                 <div className="top-row">
@@ -261,7 +273,10 @@ function ListStructure({
                       "TBA"}{" "}
                   </div>
                   {data.meanScore && (
-                    <div className="rating"><i className="fa-regular fa-face-smile"></i>&nbsp;{data.meanScore}%</div>
+                    <div className="rating">
+                      <i className="fa-regular fa-face-smile"></i>&nbsp;
+                      {data.meanScore}%
+                    </div>
                   )}
                 </div>
                 <div className="middle-row">
@@ -276,7 +291,11 @@ function ListStructure({
                     {data.episodes && (
                       <>
                         <span style={{ padding: "0 2px" }}>|</span>
-                        <span>{(data.format=='MOVIE' && data.duration) ? calculateDuration(Number(data.duration)) : `${data.episodes} Episodes`}</span>
+                        <span>
+                          {data.format == "MOVIE" && data.duration
+                            ? calculateDuration(Number(data.duration))
+                            : `${data.episodes} Episodes`}
+                        </span>
                       </>
                     )}
                   </div>
@@ -294,7 +313,6 @@ function ListStructure({
         ))}
         {hasMore &&
           searchComponent &&
-          // <SkeletonBody length={5} />
           Array(5)
             .fill(1)
             .map((data, index) => (
@@ -314,6 +332,15 @@ function ListStructure({
   );
 }
 
+ListStructure.propTypes = {
+  animeList: PropTypes.array,
+  TopAnime: PropTypes.bool,
+  hasMore: PropTypes.bool,
+  title: PropTypes.string,
+  searchComponent: PropTypes.bool,
+  handleView: PropTypes.func
+};
+
 function MakeRequest(variables, query) {
   const DefaultVariables = {
     search: undefined,
@@ -331,18 +358,16 @@ function MakeRequest(variables, query) {
     variables: { ...DefaultVariables, ...variables },
   });
 }
+
 export default function DisplayTrending({ sortCriteria, title }) {
-  const dispatch = useDispatch();
-  const navigate=useNavigate()
+  const navigate = useNavigate();
   const pageNumber = useSelector((state) => state.page.page);
-  const [sortValue, sortText] = sortCriteria;
-  const redirectTo= (sortValue == 'TRENDING_DESC') ?  0  : 1
+  const sortValue = sortCriteria[0];
+  const redirectTo = sortValue == "TRENDING_DESC" ? 0 : 1;
   const handleView = () => {
-    // dispatch(modifySortValue(sortValue));
-    // dispatch(modifySortText(sortText));
-    navigate(`/trending/${redirectTo}`)
+    navigate(`/trending/${redirectTo}`);
   };
-  const variables = { 
+  const variables = {
     type: "ANIME",
     page: pageNumber,
     perPage: 6,
@@ -362,5 +387,8 @@ export default function DisplayTrending({ sortCriteria, title }) {
     />
   );
 }
-
+DisplayTrending.propTypes = {
+  sortCriteria: PropTypes.array,
+  title: PropTypes.string,
+}
 export { ListStructure, MakeRequest };

@@ -1,4 +1,4 @@
-import React from 'react';
+import PropTypes from 'prop-types';
 import '../assets/styles/skeleton.css'
 import '../assets/styles/App.css'
 
@@ -24,7 +24,11 @@ return (
         </div>
     </>    
 }
-
+Skeleton.propTypes = {
+    length: PropTypes.number,
+    title: PropTypes.string,
+};
+  
 export function InfoCardSkeletonBody({length,offset}){
     return (<>
     {Array(length||2).fill(1).map((data,index) => (
@@ -41,6 +45,13 @@ export function InfoCardSkeletonBody({length,offset}){
             </div>
         ))}</>)
 }
+
+InfoCardSkeletonBody.propTypes = {
+    length: PropTypes.number,
+    offset: PropTypes.number,
+};
+
+
 export function InfoCardSkeleton({length,offset}){
     return (<>
         <div className="info-card-list loading-wrapper">
@@ -48,6 +59,12 @@ export function InfoCardSkeleton({length,offset}){
         </div> 
     </>)
 }
+
+InfoCardSkeleton.propTypes = {
+    length: PropTypes.number,
+    offset: PropTypes.number,
+};
+
 export default Skeleton
 
 

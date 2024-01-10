@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { getAnime } from '../utility/queries';
 import { ListStructure, MakeRequest } from './Trending';
 import Skeleton from './Skeleton';
@@ -105,7 +106,10 @@ const TopAnime = () => {
         </div>
     )
 }
-function FindAiringDate(data){
 
-}
+RowStructure.propTypes = {
+    animeList: PropTypes.array,
+    handleView: PropTypes.func,
+};
+
 export default TopAnime
