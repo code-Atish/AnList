@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useCallback } from "react";
 import PropTypes from "prop-types";
 import { useRef, useState } from "react";
 import { TitleCase } from "../../utility/utilityFunctions";
 import { useDispatch, useSelector } from "react-redux";
+import _ from 'lodash';
+
 import {
   modifySeason,
   modifySource,
@@ -75,16 +77,25 @@ const sourceList = [
 const statusList = ["FINISHED", "RELEASING", "NOT_YET_RELEASED", "CANCELLED"];
 
 function NamedInput() {
+  const [displayName,setDisplayName]=useState('');
   const dispatch = useDispatch();
   const name = useSelector((state) => state.manyInput.name);
+  const debouncedSearch = useCallback(
+    _.debounce((value) => {
+      // Perform the search operation or API call here
+      dispatch(modifyName(value));
+    }, 600), // Adjust the delay as needed
+    []
+  );
   const handleSearch = (e) => {
-    dispatch(modifyName(e.target.value));
+    setDisplayName(e.target.value);
+    debouncedSearch(e.target.value)
   };
   return (
     <div className="search_input_wrapper">
       <input
         type="text"
-        value={name}
+        value={displayName}
         id="name"
         placeholder="Search"
         onChange={handleSearch}
